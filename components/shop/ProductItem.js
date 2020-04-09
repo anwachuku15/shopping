@@ -44,7 +44,7 @@ const ProductItem = props => {
                                 color={Colors.primary}
                             />
                             <Button 
-                                title='Cart' 
+                                title='Add to Cart' 
                                 onPress={props.onAddToCart}
                                 color={Colors.primary}
                             />
