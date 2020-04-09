@@ -8,4 +8,4 @@ export const addOrder = (cartItems, totalAmount) => {
             amount: totalAmount
         }
     }
-}
+} 
