@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     },
     price: {
         fontSize: 20,
-        color: '#888',
+        color: Colors.gunmetal,
         textAlign: 'center',
         marginVertical: 20,
         fontFamily: 'open-sans-bold'

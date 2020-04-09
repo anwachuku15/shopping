@@ -41,7 +41,7 @@ const ProductItem = props => {
                             <Button 
                                 title='View Details' 
                                 onPress={props.onViewDetail}
-                                color={Colors.primary}
+                                color={Colors.pastel}
                             />
                             <Button 
                                 title='Add to Cart' 
