@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react'
 // REDUX
 import { useSelector, useDispatch } from 'react-redux'
-
 import * as cartActions from '../../redux/actions/cartActions'
+import * as orderActions from '../../redux/actions/ordersActions'
 // REACT-NATIVE
 import { Platform, FlatList, Text, View, Image, StyleSheet, Button } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -40,7 +40,9 @@ const CartScreen = props => {
                     title='Order Now'
                     color={Colors.raspberry}
                     disabled={cartItems.length === 0}
-                    onPress={() => {}}
+                    onPress={() => {
+                        dispatch(orderActions.addOrder(cartItems, cartTotalAmount))
+                    }}
                 />
             </View>
             <FlatList 
