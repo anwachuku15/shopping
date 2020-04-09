@@ -12,7 +12,15 @@ import Colors from '../../constants/Colors'
 const UserProductsScreen = props => {
     const userProducts = useSelector(state => state.products.userProducts)
     const dispatch = useDispatch()
-
+    const navToEdit = (id) => {
+        console.log('go to edit')
+        props.navigation.navigate({
+            routeName: 'EditProduct',
+            params: {
+                productId: id
+            }
+        })
+    }
     return (
         <FlatList
             data={userProducts}
@@ -22,11 +30,11 @@ const UserProductsScreen = props => {
                     image={itemData.item.imageUrl}
                     title={itemData.item.title}
                     price={itemData.item.price}
-                    onSelect={() => {}}
+                    onSelect={() => {navToEdit(itemData.item.id)}}
                 >
                     <Button 
                         title='Edit' 
-                        onPress={() => {}}
+                        onPress={() => {navToEdit(itemData.item.id)}}
                         color={Colors.pastel}
                     />
                     <Button 
@@ -59,11 +67,11 @@ UserProductsScreen.navigationOptions = (navData) => {
         headerRight: () => (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
-                    title='Cart'
-                    iconName={Platform.OS==='android' ? 'md-cart' : 'ios-cart'}
+                    title='Add'
+                    iconName={Platform.OS==='android' ? 'md-add' : 'ios-add'}
                     onPress={() => {
                         navData.navigation.navigate({
-                            routeName: 'Cart',
+                            routeName: 'EditProduct'
                         })
                     }}
                 />

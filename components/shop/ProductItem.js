@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     },
     prodInfo: {
         alignItems: 'center',
-        height: '15%',
+        height: '19%',
         padding: 10
     },  
     title: {
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        height: '25%',
+        height: '21%',
         paddingHorizontal: 20
     }
 })
