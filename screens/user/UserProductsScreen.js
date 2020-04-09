@@ -13,7 +13,6 @@ const UserProductsScreen = props => {
     const userProducts = useSelector(state => state.products.userProducts)
     const dispatch = useDispatch()
     const navToEdit = (id) => {
-        console.log('go to edit')
         props.navigation.navigate({
             routeName: 'EditProduct',
             params: {
