@@ -14,14 +14,6 @@ export default (state = initialState, action) => {
                 action.orderData.amount,
                 new Date()
             )
-            /* TEST
-            console.log('Order successful!\nOrder Details:')
-            var i = 0
-            const orderItems = action.orderData.items
-            while (i < orderItems.length) {
-                console.log('Item: ' + orderItems[i]['quantity'] + ' ' + orderItems[i]['productTitle'] + ' | ' + orderItems[i]['sum'].toFixed(2))
-                i = i+1
-            }*/
             return {
                 ...state,
                 orders: state.orders.concat(newOrder)
