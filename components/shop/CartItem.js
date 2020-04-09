@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         fontFamily: 'open-sans',
         color: Colors.gunmetal,
         fontSize: 16,
-        marginLeft: 20
+        marginLeft: 5
     },
     title:{
         fontFamily: 'open-sans-bold',

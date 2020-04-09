@@ -38,36 +38,35 @@ export default (state = initialState, action) => {
                 totalAmount: state.totalAmount + prodPrice
             }
         case REMOVE_FROM_CART:
-            const cartItems = {...state.items}
-            delete cartItems[action.pid]
-
+            const cartItem = {...state.items}
+            delete cartItem[action.pid]
+            return {
+                ...state
+            }
         case REMOVE_ONE_FROM_CART:
             const selectedItem = state.items[action.pid]
             const qty = state.items[action.pid].quantity
-
+            let cartItems
+            
             if (qty < 2) {
-                const cartItems = {...state.items}
+                cartItems = {...state.items}
                 delete cartItems[action.pid]
-                return {
-                    ...state,
-                    items: cartItems,
-                    totalAmount: state.totalAmount - state.items[action.pid].productPrice
-                } 
             } else {
-                const cartItems = new CartItem(
+                const cartItem = new CartItem(
                     selectedItem.quantity-1, 
                     selectedItem.productPrice, 
                     selectedItem.productTitle, 
                     selectedItem.sum-=selectedItem.productPrice 
                 )
-                return { 
-                    ...state,
-                    items: {
-                        ...state.items,
-                        [action.pid]: cartItems
-                    },
-                    totalAmount: state.totalAmount-cartItems.productPrice
+                cartItems = {
+                    ...state.items,
+                    [action.pid]: cartItem
                 }
+            }
+            return {
+                ...state,
+                items: cartItems,
+                totalAmount: state.totalAmount - selectedItem.productPrice
             }
             
         default:
