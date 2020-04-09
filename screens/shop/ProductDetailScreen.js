@@ -47,13 +47,15 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#888',
         textAlign: 'center',
-        marginVertical: 20
+        marginVertical: 20,
+        fontFamily: 'open-sans-bold'
     },
     description: {
         fontSize: 14,
         marginVertical: 20,
         marginHorizontal: 20,
         textAlign: 'center',
+        fontFamily: 'open-sans'
     },
 })
 
