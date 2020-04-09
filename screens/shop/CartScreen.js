@@ -55,8 +55,8 @@ const CartScreen = props => {
                         title={itemData.item.productTitle}
                         amount={itemData.item.sum}
                         onRemove={() => {
-                            dispatch(cartActions.removeOne(itemData.item.productId))}
-                        }
+                            dispatch(cartActions.removeOne(itemData.item.productId))
+                        }}
                     />
                 )}
             />
