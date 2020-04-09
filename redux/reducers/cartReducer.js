@@ -25,7 +25,6 @@ export default (state = initialState, action) => {
                     prodTitle,
                     state.items[addedProduct.id].sum += prodPrice
                 )
-                console.log(updatedOrNewCartItem.sum)
             } else {
                 updatedOrNewCartItem = new CartItem(1, prodPrice, prodTitle, prodPrice)
             }

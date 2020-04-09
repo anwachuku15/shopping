@@ -8,7 +8,12 @@ import HeaderButton from '../../components/UI/HeaderButton'
 import OrderItem from '../../components/shop/OrderItem'
 
 const OrdersScreen = props => {
-    const orders = useSelector(state => state.orders.orders)
+    const orders = useSelector(state => {
+        const descendingOrders = state.orders.orders
+        return descendingOrders.sort((a, b) => 
+            a.date > b.date ? -1 : 1
+        )
+    })
 
     return (
         <FlatList
@@ -17,7 +22,9 @@ const OrdersScreen = props => {
             renderItem={itemData => (
                 <OrderItem 
                     amount={itemData.item.totalAmount} 
-                    date={itemData.item.readableDate} 
+                    price={itemData.item.price}
+                    date={itemData.item.readableDate}
+                    items={itemData.item.items}
                 /> 
             )}
         />

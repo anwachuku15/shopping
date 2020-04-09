@@ -50,10 +50,10 @@ const CartScreen = props => {
                 keyExtractor={item => item.productId}
                 renderItem={itemData => (
                     <CartItem
+                        deletable
                         quantity={itemData.item.quantity}
                         title={itemData.item.productTitle}
-                        price={itemData.item.productPrice}
-                        // amount={itemData.item.sum}
+                        amount={itemData.item.sum}
                         onRemove={() => {
                             dispatch(cartActions.removeOne(itemData.item.productId))}
                         }

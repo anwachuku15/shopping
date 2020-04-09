@@ -10,19 +10,18 @@ const CartItem = props => {
     return (
         <View style={styles.cartItem}>
             <View style={styles.itemData}>
+                <Text style={styles.quantity}>({props.quantity}) </Text>
                 <Text style={styles.title}>{props.title}</Text>
-                <Text style={styles.quantity}>{props.quantity}</Text>
             </View>
             <View style={styles.itemData}>
-                {/* <Text style={styles.amount}>${props.amount.toFixed(2)}</Text> */}
-                <Text style={styles.amount}>${props.price.toFixed(2)}</Text>
-                <TouchableOpacity onPress={props.onRemove} style={styles.delete}>
+                <Text style={styles.amount}>${props.amount.toFixed(2)}</Text>
+                {props.deletable && <TouchableOpacity onPress={props.onRemove} style={styles.delete}>
                     <Ionicons
                         name={Platform.OS==='android' ? 'md-trash' : 'ios-trash'}
                         size={23}
                         color='red'
                     />
-                </TouchableOpacity>
+                </TouchableOpacity>}
             </View>
         </View>
     )

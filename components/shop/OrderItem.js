@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 // REDUX
 
 // REACT NATIVE
@@ -9,6 +9,7 @@ import Colors from '../../constants/Colors'
 
 
 const OrderItem = props => {
+    const [showDetails, setShowDetails] = useState(false)
     return (
         <View style={styles.orderItem}>
             <View style={styles.summary}>
@@ -16,9 +17,25 @@ const OrderItem = props => {
                 <Text style={styles.date}>{props.date}</Text>
             </View>
             <Button
-                title='Show Details'
+                title={!showDetails ? 'Show Details' : 'Hide Details'}
                 color={Colors.primary}
+                onPress={() => {
+                    setShowDetails(!showDetails)
+                    // setShowDetails(prevSate => !prevState)
+                }}
             />
+            {showDetails && (
+                <View style={styles.detailItems}>
+                    {props.items.map(cartItem => (
+                        <CartItem 
+                            key={cartItem.productId}
+                            quantity={cartItem.quantity}
+                            amount={cartItem.sum}
+                            title={cartItem.productTitle}
+                        />
+                    ))}
+                </View>
+            )}
         </View>
     )
 }
@@ -45,12 +62,16 @@ const styles = StyleSheet.create({
     },
     totalAmount: {
         fontFamily: 'open-sans-bold',
-        fontSize: 16
+        fontSize: 16,
+        color: Colors.pastel
     },
     date: {
         fontFamily: 'open-sans',
         fontSize: 16,
         color: '#888'
+    },
+    detailItems: {
+        width: '100%'
     }
 })
 
