@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 // REDUX
 import { useSelector } from 'react-redux'
 // NATIVE
@@ -19,6 +19,17 @@ const EditProductScreen = props => {
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState(editedProduct ? editedProduct.description : '')
     
+    // avoid infinite loop
+    const submitHandler = useCallback(() => {
+        console.log('submitted')
+    }, [])
+
+    // send submitHandler to params to add functionality to headerRight
+    useEffect(() => {
+        props.navigation.setParams({
+            submit: submitHandler
+        })
+    }, [submitHandler])
     
 
     return (
@@ -62,6 +73,7 @@ const EditProductScreen = props => {
 }
 
 EditProductScreen.navigationOptions = navData => {
+    const submit = navData.navigation.getParam('submit')
     return {
         headerTitle: navData.navigation.getParam('productId') ? 'Edit Product' : 'Add Product',
         headerRight: () => (
@@ -69,7 +81,7 @@ EditProductScreen.navigationOptions = navData => {
                 <Item
                     title='Save'
                     iconName={Platform.OS==='android' ? 'md-checkmark' : 'ios-checkmark'}
-                    onPress={() => {}}
+                    onPress={submit}
                 />
             </HeaderButtons>
         )
