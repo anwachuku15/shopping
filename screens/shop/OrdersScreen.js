@@ -31,7 +31,7 @@ OrdersScreen.navigationOptions = (navData) => {
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
                     title='Menu'
-                    iconName={Platform.OS==='android' ? 'md-cart' : 'ios-menu'}
+                    iconName={Platform.OS==='android' ? 'md-menu' : 'ios-menu'}
                     onPress={() => {
                         navData.navigation.toggleDrawer()
                     }}
