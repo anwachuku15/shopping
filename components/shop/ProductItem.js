@@ -5,12 +5,10 @@ import {
     Text, 
     Image, 
     StyleSheet, 
-    Button, 
     TouchableOpacity,
     TouchableNativeFeedback,
 
 } from 'react-native'
-import Colors from '../../constants/Colors'
 
 // import 
 // PRESENTATIONAL (STYLING) COMPONENT
@@ -24,8 +22,7 @@ const ProductItem = props => {
         <View style={styles.product}>
 
             <View style={styles.touchable}>
-                <TouchableCmp onPress={props.onViewDetail} useForeground>
-                    
+                <TouchableCmp onPress={props.onSelect} useForeground>
                     <View>
                         <View style={styles.imageContainer}>
                             <Image source={{uri: props.image}} style={styles.image}/>
@@ -37,17 +34,7 @@ const ProductItem = props => {
                         </View>
                         
                         <View style={styles.buttons}>
-                            
-                            <Button 
-                                title='View Details' 
-                                onPress={props.onViewDetail}
-                                color={Colors.pastel}
-                            />
-                            <Button 
-                                title='Add to Cart' 
-                                onPress={props.onAddToCart}
-                                color={Colors.primary}
-                            />
+                            {props.children}
                         </View>
                     </View>
                     
