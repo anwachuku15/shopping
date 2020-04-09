@@ -12,7 +12,7 @@ import Colors from '../../constants/Colors'
 import CartItem from '../../components/shop/CartItem'
 
 const CartScreen = props => {
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
     const cartTotalAmount = useSelector(state => state.cart.totalAmount)
     const cartItems = useSelector(state => {
         const cartArray = []
@@ -50,9 +50,11 @@ const CartScreen = props => {
                     <CartItem
                         quantity={itemData.item.quantity}
                         title={itemData.item.productTitle}
-                        amount={itemData.item.sum}
-                        // onRemove={dispatch(cartActions.removeFromCart(itemData.item))}
-                        onRemove={() => {}}
+                        price={itemData.item.productPrice}
+                        // amount={itemData.item.sum}
+                        onRemove={() => {
+                            dispatch(cartActions.removeOne(itemData.item.productId))}
+                        }
                     />
                 )}
             />
