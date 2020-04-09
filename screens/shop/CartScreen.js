@@ -1,15 +1,19 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 // REDUX
 import { useSelector, useDispatch } from 'react-redux'
-import ProductItem from '../../components/shop/ProductItem'
+
 import * as cartActions from '../../redux/actions/cartActions'
 // REACT-NATIVE
 import { Platform, FlatList, Text, View, Image, StyleSheet, Button } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import ProductItem from '../../components/shop/ProductItem'
 import HeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
+import CartItem from '../../components/shop/CartItem'
 
 const CartScreen = props => {
+    // const dispatch = useDispatch()
+    const cartTotalAmount = useSelector(state => state.cart.totalAmount)
     const cartItems = useSelector(state => {
         const cartArray = []
         for (const key in state.cart.items) {
@@ -18,13 +22,13 @@ const CartScreen = props => {
                 productTitle: state.cart.items[key].productTitle,
                 productPrice: state.cart.items[key].productPrice,
                 quantity: state.cart.items[key].quantity,
-                sum: state.cart.items[key].sum,
+                sum: state.cart.items[key].sum
             })
         }
         return cartArray
     })
-    const cartTotalAmount = useSelector(state => state.cart.totalAmount)
-    const dispatch = useDispatch()
+
+
 
     return (
         <View style={styles.screen}>
@@ -36,16 +40,22 @@ const CartScreen = props => {
                     title='Order Now'
                     color={Colors.raspberry}
                     disabled={cartItems.length === 0}
+                    onPress={() => {}}
                 />
             </View>
-            {/* <FlatList 
-
-            /> */}
-            <View>
-                <Text>Cart items</Text>
-                <Text>Cart items</Text>
-                <Text>Cart items</Text>
-            </View>
+            <FlatList 
+                data={cartItems}
+                keyExtractor={item => item.productId}
+                renderItem={itemData => (
+                    <CartItem
+                        quantity={itemData.item.quantity}
+                        title={itemData.item.productTitle}
+                        amount={itemData.item.sum}
+                        // onRemove={dispatch(cartActions.removeFromCart(itemData.item))}
+                        onRemove={() => {}}
+                    />
+                )}
+            />
         </View>
     )
 }

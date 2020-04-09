@@ -1,6 +1,5 @@
-import { ADD_TO_CART } from "../actions/cartActions"
+import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/cartActions"
 import CartItem from "../../models/cart-item-model"
-import { add } from "react-native-reanimated"
 
 
 
@@ -31,13 +30,25 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 items: {
+                    [addedProduct.id]: updatedOrNewCartItem,
                     ...state.items,
-                    [addedProduct.id]: updatedOrNewCartItem
+                    
                 },
                 totalAmount: state.totalAmount + prodPrice
             }
-            
+        case REMOVE_FROM_CART:
+            const selectedProduct = action.product
+            const price = selectedProduct.price
+            const title = selectedProduct.title
 
+            for (const key in state.items) {
+                if (key === selectedProduct.id) {
+                    // remove key
+                }
+            }
+        
+        default:
+            return state
     }
 
     return state
