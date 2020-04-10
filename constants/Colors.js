@@ -1,4 +1,6 @@
 export default {
+    primaryColor: '#ff4081',
+    secondaryColor: '#06d4cd',
     primary: '#fbbc04',
     gunmetal: '#2F4550',
     blacksmoke: '#08090A',
