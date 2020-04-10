@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 // REDUX
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { createProduct, updateProduct } from '../../redux/actions/productsActions'
 // NATIVE
 import { Platform, View, Text, TextInput, ScrollView, StyleSheet } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -19,10 +20,16 @@ const EditProductScreen = props => {
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState(editedProduct ? editedProduct.description : '')
     
+    const dispatch = useDispatch()
+
     // avoid infinite loop
     const submitHandler = useCallback(() => {
-        console.log('submitted')
-    }, [])
+        if (editedProduct) {
+            dispatch(updateProduct(prodId, title, description, imageURL))
+        } else {
+            dispatch(createProduct(title, description, imageURL, +price))
+        }
+    }, [dispatch, prodId, title, imageURL, price, description])
 
     // send submitHandler to params to add functionality to headerRight
     useEffect(() => {
