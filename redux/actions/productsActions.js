@@ -38,25 +38,6 @@ export const fetchProducts = () => {
     }
 }
 
-export const deleteProduct = (productId) => {
-    return async dispatch => {
-        const res = await fetch(`https://reactnative-ac7bd.firebaseio.com/products/${productId}.json`,
-        {
-            method: 'DELETE',
-        })
-
-        if (!res.ok) {
-            throw new Error('Something went wrong')
-        }
-
-        dispatch({
-            type: DELETE_PRODUCT,
-            pid: productId
-        })
-    }
-}
-
-
 // export const createProduct = (title, description, imageUrl, price) => {return {type: CREATE_PRODUCT, productData: {title,description,imageUrl,price}}}
 export const createProduct = (title, description, imageUrl, price) => { //id given in reducer (Date)
     return async dispatch => {
@@ -116,6 +97,24 @@ export const updateProduct = (id, title, description, imageUrl) => {
                 description,
                 imageUrl
             }
+        })
+    }
+}
+
+export const deleteProduct = (productId) => {
+    return async dispatch => {
+        const res = await fetch(`https://reactnative-ac7bd.firebaseio.com/products/${productId}.json`,
+        {
+            method: 'DELETE',
+        })
+
+        if (!res.ok) {
+            throw new Error('Something went wrong')
+        }
+
+        dispatch({
+            type: DELETE_PRODUCT,
+            pid: productId
         })
     }
 }
