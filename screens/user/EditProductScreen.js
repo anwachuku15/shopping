@@ -7,7 +7,7 @@ import { Alert, Platform, View, Text, TextInput, ScrollView, StyleSheet } from '
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
-
+import Input from '../../components/UI/Input'
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE'
 
@@ -31,7 +31,6 @@ const formReducer = (state, action) => {
         let newValues = {}
         for (const key in updatedValues) {
             newValues[key] = updatedValues[key].trimStart()
-            console.log(newValues)
         }
 
         return {
@@ -69,20 +68,15 @@ const EditProductScreen = props => {
         formIsValid: editedProduct ? true : false,
     })
     // FORM VALIDATION ACTION
-    const textChangeHandler = (inputType, text) => {
-        let isValid = false
-        if (text.trim().length > 0) {
-            isValid = true
-        }
+    // callback -> use effect in input componet
+    const inputChangeHandler = useCallback((inputType, inputValue, inputValidity) => {
         dispatchFormState({
             type: FORM_INPUT_UPDATE,
-            value: text,
+            value: inputValue,
             input: inputType,
-            isValid: isValid,
+            isValid: inputValidity,
         })
-        
-        
-    }
+    }, [dispatchFormState])
 
 
     // avoid infinite loop
@@ -122,47 +116,62 @@ const EditProductScreen = props => {
     return (
         <ScrollView>
             <View style={styles.form}>
-                <View style={styles.formControl}>
-                    <Text style={styles.label}>Title</Text>
-                    <TextInput
-                        onChangeText={textChangeHandler.bind(this, 'title')}
-                        style={styles.input}
-                        value={formState.inputValues.title}
-                        keyboardType='default'
-                        autoCapitalize='sentences'
+                <Input
+                    id='title'
+                    label='Title'
+                    errorText='Please enter a valid title'
+                    keyboardType='default'
+                    autoCapitalize='sentences'
+                    autoCorrect
+                    returnKeyType='next'
+                    onInputChange={inputChangeHandler}
+                    initialValue={editedProduct ? editedProduct.title : ''}
+                    initiallyValid={!!editedProduct}
+                    required
+                />
+                
+                <Input
+                    id='imageURL'
+                    label='Image URL'
+                    errorText='Please enter a valid image url'
+                    keyboardType='default'
+                    autoCapitalize='sentences'
+                    autoCorrect
+                    returnKeyType='next'
+                    onInputChange={inputChangeHandler}
+                    initialValue={editedProduct ? editedProduct.imageUrl : ''}
+                    initiallyValid={!!editedProduct}
+                    required
+
+                />
+                {editedProduct ? null : ( 
+                    <Input
+                        id='price'
+                        label='Price'
+                        errorText='Please enter valid price'
+                        keyboardType='decimal-pad'
                         autoCorrect
                         returnKeyType='next'
-                        // onEndEditing={() =>{ console.log('submitted')}}
-                        onSubmitEditing={() => {console.log('submitted')}}
+                        required
+                        min={0.01}
+                        onInputChange={inputChangeHandler}
                     />
-                    {!formState.inputValidities.title && <Text style={{color:'red'}}>Please enter a valid title</Text>}
-                </View>
-                <View style={styles.formControl}>
-                    <Text style={styles.label}>ImageURL</Text>
-                    <TextInput
-                        onChangeText={textChangeHandler.bind(this, 'imageURL')}
-                        style={styles.input}
-                        value={formState.inputValues.imageURL}
-                    />
-                </View>
-                {editedProduct ? null : <View style={styles.formControl}>
-                    <Text style={styles.label}>Price</Text>
-                    <TextInput 
-                        onChangeText={textChangeHandler.bind(this, 'price')}
-                        style={styles.input}
-                        value={formState.inputValues.price}
-                        keyboardType='decimal-pad'
-                    />
-                </View>}
-                <View style={styles.formControl}>
-                    <Text style={styles.label}>Description</Text>
-                    <TextInput 
-                        onChangeText={textChangeHandler.bind(this, 'description')}
-                        style={styles.input}
-                        value={formState.inputValues.description}
-                        keyboardType='default'
-                    />
-                </View>
+                )}
+                <Input
+                    id='description'
+                    label='Description'
+                    errorText='Please enter a valid title'
+                    keyboardType='default'
+                    autoCapitalize='sentences'
+                    autoCorrect
+                    multiline
+                    numberOfLines={3}
+                    onInputChange={inputChangeHandler}
+                    initialValue={editedProduct ? editedProduct.description : ''}
+                    initiallyValid={!!editedProduct}
+                    required
+                    minLength={5}
+                />
             </View>
         </ScrollView>
         )
@@ -188,20 +197,6 @@ const styles = StyleSheet.create({
     form: {
         margin: 20
     },
-    formControl: {
-        width: '100%'
-    },
-    label: {
-        fontFamily: 'open-sans-bold',
-        marginVertical: 8
-    },
-    input: {
-        paddingHorizontal: 2,
-        paddingVertical: 5,
-        borderBottomColor: Colors.primary,
-        borderBottomWidth: 1
-    },
-
 })
 
 export default EditProductScreen
