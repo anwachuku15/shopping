@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 // REDUX
 import { useSelector, useDispatch } from 'react-redux'
 import ProductItem from '../../components/shop/ProductItem'
 import * as cartActions from '../../redux/actions/cartActions'
+import { fetchProducts } from '../../redux/actions/productsActions'
 // REACT-NATIVE
 import { Platform, Button, FlatList, Text } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -19,6 +20,9 @@ const ProductsOverviewScreen = props => {
         )
     })
     const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(fetchProducts())
+    }, [dispatch])
 
     const selectItemHandler = (id, title) => {
         props.navigation.navigate({
