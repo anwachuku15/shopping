@@ -40,10 +40,15 @@ export const fetchProducts = () => {
 
 export const deleteProduct = (productId) => {
     return async dispatch => {
-        await fetch(`https://reactnative-ac7bd.firebaseio.com/products/${productId}.json`,
+        const res = await fetch(`https://reactnative-ac7bd.firebaseio.com/products/${productId}.json`,
         {
             method: 'DELETE',
         })
+
+        if (!res.ok) {
+            throw new Error('Something went wrong')
+        }
+
         dispatch({
             type: DELETE_PRODUCT,
             pid: productId
@@ -85,7 +90,7 @@ export const createProduct = (title, description, imageUrl, price) => { //id giv
 
 export const updateProduct = (id, title, description, imageUrl) => {
     return async dispatch => {
-        await fetch(`https://reactnative-ac7bd.firebaseio.com/products/${id}.json`, 
+        const res = await fetch(`https://reactnative-ac7bd.firebaseio.com/products/${id}.json`, 
         {
             method: 'PATCH',
             headers: {
@@ -97,7 +102,12 @@ export const updateProduct = (id, title, description, imageUrl) => {
                 imageUrl
             })
         }
-    )
+        )
+
+        if (!res.ok) {
+            throw new Error('Something went wrong')
+        }
+
         dispatch({
             type: UPDATE_PRODUCT,
             pid: id,

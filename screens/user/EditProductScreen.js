@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useReducer } from 'react'
+import React, { useState, useEffect, useCallback, useReducer } from 'react'
 // REDUX
 import { useSelector, useDispatch } from 'react-redux'
 import { createProduct, updateProduct } from '../../redux/actions/productsActions'
@@ -9,7 +9,8 @@ import {
     View, 
     ScrollView, 
     StyleSheet, 
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    ActivityIndicator
 } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../../components/UI/HeaderButton'
@@ -51,13 +52,15 @@ const formReducer = (state, action) => {
 }
 
 const EditProductScreen = props => {
-    const dispatch = useDispatch()
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState()
 
     const prodId = props.navigation.getParam('productId') //if productId was passed: Edit Mode
     const editedProduct = useSelector(state => 
         state.products.userProducts.find(prod => prod.id === prodId)
     )
     
+    const dispatch = useDispatch()
     // FORM VALIDATION - INITIAL STATE
     const [formState, dispatchFormState] = useReducer(formReducer, {
         inputValues: {
@@ -85,31 +88,43 @@ const EditProductScreen = props => {
         })
     }, [dispatchFormState])
 
+    useEffect(() => {
+        if (error) {
+            Alert.alert('An error occured', error, [{ text: 'Okay' }])
+        }
+    }, [error])
 
     // avoid infinite loop
-    const submitHandler = useCallback(() => {
+    const submitHandler = useCallback(async () => {
         if (!formState.formIsValid) {
             Alert.alert('Invalid Information', 'Please check for errors', [
                 { text: 'Okay' }
             ])
             return
         }
-        if (editedProduct) {
-            dispatch(updateProduct(
-                prodId, 
-                formState.inputValues.title, 
-                formState.inputValues.description, 
-                formState.inputValues.imageURL
-            ))
-        } else {
-            dispatch(createProduct(
-                formState.inputValues.title, 
-                formState.inputValues.description, 
-                formState.inputValues.imageURL, 
-                +formState.inputValues.price
-            ))
+        setError(null)
+        setIsLoading(true)
+        try {
+            if (editedProduct) {
+                await dispatch(updateProduct(
+                    prodId, 
+                    formState.inputValues.title, 
+                    formState.inputValues.description, 
+                    formState.inputValues.imageURL
+                ))
+            } else {
+                await dispatch(createProduct(
+                    formState.inputValues.title, 
+                    formState.inputValues.description, 
+                    formState.inputValues.imageURL, 
+                    +formState.inputValues.price
+                ))
+            }
+            props.navigation.goBack()
+        } catch (err) {
+            setError(err.message)
         }
-        props.navigation.goBack()
+        setIsLoading(false)
     }, [dispatch, prodId, formState])
     // send submitHandler to params to add functionality to headerRight
     useEffect(() => {
@@ -119,7 +134,17 @@ const EditProductScreen = props => {
     }, [submitHandler])
     
     
-    
+    if (isLoading) {
+        return (
+            <View style={styles.spinner}>
+                <ActivityIndicator
+                    size='large'
+                    color={Colors.primary}
+                />
+            </View>
+        )
+    }
+
     return (
         <KeyboardAvoidingView 
             style={{ flex: 1 }}
@@ -210,6 +235,11 @@ const styles = StyleSheet.create({
     form: {
         margin: 20
     },
+    spinner: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 })
 
 export default EditProductScreen
