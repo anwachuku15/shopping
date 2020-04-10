@@ -11,15 +11,46 @@ export const deleteProduct = (productId) => {
     }
 }
 
+// export const createProduct = (title, description, imageUrl, price) => { //id given in reducer (Date)
+//     return {
+//         type: CREATE_PRODUCT,
+//         productData: {
+//             title,
+//             description,
+//             imageUrl,
+//             price
+//         }
+//     }
+// }
+
 export const createProduct = (title, description, imageUrl, price) => { //id given in reducer (Date)
-    return {
-        type: CREATE_PRODUCT,
-        productData: {
-            title,
-            description,
-            imageUrl,
-            price
-        }
+    return async dispatch => {
+        const res = await fetch('https://reactnative-ac7bd.firebaseio.com/products.json', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'Application/json',
+            },
+            body: JSON.stringify({
+                title,
+                description,
+                imageUrl,
+                price
+            })
+        })
+
+        const resData = await res.json()
+        console.log(resData)
+
+        dispatch({
+            type: CREATE_PRODUCT,
+            productData: {
+                id: resData.name,
+                title,
+                description,
+                imageUrl,
+                price
+            }
+        })
     }
 }
 

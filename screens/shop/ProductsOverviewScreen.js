@@ -10,7 +10,14 @@ import HeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
 
 const ProductsOverviewScreen = props => {
-    const products = useSelector(state => state.products.availableProducts)
+    // const products = useSelector(state => state.products.availableProducts)
+
+    const products = useSelector(state => {
+        const descending = state.products.availableProducts
+        return descending.sort((a, b) => 
+            a.id < b.id ? -1 : 1
+        )
+    })
     const dispatch = useDispatch()
 
     const selectItemHandler = (id, title) => {

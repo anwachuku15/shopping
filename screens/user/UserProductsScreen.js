@@ -10,7 +10,14 @@ import HeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
 
 const UserProductsScreen = props => {
-    const userProducts = useSelector(state => state.products.userProducts)
+    // const userProducts = useSelector(state => state.products.userProducts)
+    const userProducts = useSelector(state => {
+        const descendingOrders = state.products.userProducts
+        return descendingOrders.sort((a, b) => 
+            a.id < b.id ? -1 : 1
+        )
+    })
+
     const dispatch = useDispatch()
     const navToEdit = (id) => {
         props.navigation.navigate({
