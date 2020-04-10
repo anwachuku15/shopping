@@ -172,7 +172,7 @@ const EditProductScreen = props => {
                     <Input
                         id='description'
                         label='Description'
-                        errorText='Please enter a valid title'
+                        errorText='At least three characters'
                         keyboardType='default'
                         autoCapitalize='sentences'
                         autoCorrect
@@ -182,7 +182,7 @@ const EditProductScreen = props => {
                         initialValue={editedProduct ? editedProduct.description : ''}
                         initiallyValid={!!editedProduct}
                         required
-                        minLength={5}
+                        // minLength={3} 
                     />
                 </View>
             </ScrollView>
