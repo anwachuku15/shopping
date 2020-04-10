@@ -44,7 +44,7 @@ const UserProductsScreen = props => {
             renderItem={itemData => (
                 <ProductItem 
                     image={itemData.item.imageUrl}
-                    title={itemData.item.title}
+                    title={itemData.item.title.trim()}
                     price={itemData.item.price}
                     onSelect={() => {navToEdit(itemData.item.id)}}
                 >
