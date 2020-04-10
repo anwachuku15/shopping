@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 // REDUX
 import { useSelector, useDispatch } from 'react-redux'
 import * as cartActions from '../../redux/actions/cartActions'
 import * as orderActions from '../../redux/actions/ordersActions'
 // REACT-NATIVE
-import { Platform, FlatList, Text, View, Image, StyleSheet, Button } from 'react-native'
+import { Platform, FlatList, Text, View, Image, StyleSheet, Button, ActivityIndicator } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import ProductItem from '../../components/shop/ProductItem'
 import HeaderButton from '../../components/UI/HeaderButton'
@@ -13,6 +13,9 @@ import CartItem from '../../components/shop/CartItem'
 import Card from '../../components/UI/Card'
 
 const CartScreen = props => {
+    const [isLoading, setIsLoading] = useState(false)
+    // const [error, setError] = useState()
+    
     const dispatch = useDispatch()
     const cartTotalAmount = useSelector(state => state.cart.totalAmount)
     const cartItems = useSelector(state => {
@@ -29,6 +32,13 @@ const CartScreen = props => {
         return cartArray
     })
 
+    const sendOrderHandler = async () => {
+        setIsLoading(true)
+        await dispatch(orderActions.addOrder(cartItems, cartTotalAmount))
+        setIsLoading(false)
+    }
+    
+
 
 
     return (
@@ -37,14 +47,16 @@ const CartScreen = props => {
                 <Text style={styles.summaryText}>
                     Total: <Text style={styles.amount}>${Math.round((cartTotalAmount.toFixed(2) * 100) / 100).toFixed(2)}</Text>
                 </Text>
-                <Button
-                    title='Order Now'
-                    color={Colors.raspberry}
-                    disabled={cartItems.length === 0}
-                    onPress={() => {
-                        dispatch(orderActions.addOrder(cartItems, cartTotalAmount))
-                    }}
-                />
+                {isLoading ? (
+                    <ActivityIndicator size='small' color={Colors.primary} />
+                ) : (
+                    <Button
+                        title='Order Now'
+                        color={Colors.raspberry}
+                        disabled={cartItems.length === 0}
+                        onPress={sendOrderHandler}
+                    />
+                )}
             </Card>
             <FlatList 
                 data={cartItems}

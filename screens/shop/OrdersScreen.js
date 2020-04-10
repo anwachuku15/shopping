@@ -1,19 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // REDUX
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import {fetchOrders} from '../../redux/actions/ordersActions'
 // NATIVE
-import { View, FlatList, Text } from 'react-native'
+import { View, FlatList, StyleSheet, Platform, ActivityIndicator } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../../components/UI/HeaderButton'
 import OrderItem from '../../components/shop/OrderItem'
+import Colors from '../../constants/Colors'
 
 const OrdersScreen = props => {
+    const [isLoading, setIsLoading] = useState(false)
+    
+
     const orders = useSelector(state => {
         const descendingOrders = state.orders.orders
         return descendingOrders.sort((a, b) => 
             a.date > b.date ? -1 : 1
         )
     })
+    const dispatch = useDispatch()
+
+    // add error handling
+    useEffect(() => {
+        setIsLoading(true)
+        dispatch(fetchOrders()).then(() => {
+            setIsLoading(false)
+        })
+    }, [dispatch])
+
+    if (isLoading) {
+        return (
+            <View style={styles.spinner}>
+                <ActivityIndicator size='large' color={Colors.primary} />
+            </View>
+        )
+    }
 
     return (
         <FlatList
@@ -60,5 +82,13 @@ OrdersScreen.navigationOptions = (navData) => {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    spinner: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+})
 
 export default OrdersScreen
