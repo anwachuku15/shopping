@@ -20,6 +20,8 @@ const EditProductScreen = props => {
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState(editedProduct ? editedProduct.description : '')
     
+    
+
     const dispatch = useDispatch()
 
     // avoid infinite loop
@@ -29,6 +31,7 @@ const EditProductScreen = props => {
         } else {
             dispatch(createProduct(title, description, imageURL, +price))
         }
+        props.navigation.goBack()
     }, [dispatch, prodId, title, imageURL, price, description])
 
     // send submitHandler to params to add functionality to headerRight

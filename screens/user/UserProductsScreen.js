@@ -3,7 +3,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {deleteProduct} from '../../redux/actions/productsActions'
 // NATIVE
-import { Platform, FlatList, Button} from 'react-native'
+import { Alert, Platform, FlatList, Button} from 'react-native'
 import ProductItem from '../../components/shop/ProductItem'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../../components/UI/HeaderButton'
@@ -20,6 +20,23 @@ const UserProductsScreen = props => {
             }
         })
     }
+
+    const deleteHandler = (id) => {
+        Alert.alert('Are you sure?', 'Cannot be undone.', [
+            {
+                text: 'Cancel', 
+                style: 'cancel'
+            },
+            {
+                text: 'Delete',
+                style: 'destructive', 
+                onPress: () => {
+                    dispatch(deleteProduct(id))
+                }
+            }
+        ])
+    }
+
     return (
         <FlatList
             data={userProducts}
@@ -38,9 +55,7 @@ const UserProductsScreen = props => {
                     />
                     <Button 
                         title='Delete' 
-                        onPress={() => {
-                            dispatch(deleteProduct(itemData.item.id))
-                        }}
+                        onPress={deleteHandler.bind(this, itemData.item.id)}
                         color={Colors.primary}
                     />
                 </ProductItem>
