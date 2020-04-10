@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 // REDUX
 import { useSelector, useDispatch } from 'react-redux'
 import ProductItem from '../../components/shop/ProductItem'
 import * as cartActions from '../../redux/actions/cartActions'
 import { fetchProducts } from '../../redux/actions/productsActions'
 // REACT-NATIVE
-import { Platform, Button, FlatList, Text } from 'react-native'
+import { Platform, Text, Button, FlatList, ActivityIndicator, View, StyleSheet } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
 
 const ProductsOverviewScreen = props => {
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState()
     // const products = useSelector(state => state.products.availableProducts)
-
     const products = useSelector(state => {
         const descending = state.products.availableProducts
         return descending.sort((a, b) => 
@@ -20,9 +21,50 @@ const ProductsOverviewScreen = props => {
         )
     })
     const dispatch = useDispatch()
+    
+    const loadProducts = useCallback(async () => {
+        setError(null)
+        setIsLoading(true)
+        try {
+            await dispatch(fetchProducts())
+        } catch (err){
+            setError(err.message)
+        }
+        setIsLoading(false)
+    },[dispatch, setIsLoading, setError])
+
     useEffect(() => {
-        dispatch(fetchProducts())
-    }, [dispatch])
+        loadProducts()
+    }, [dispatch, loadProducts])
+
+
+    if (error) {
+        return (
+            <View style={styles.spinner}>
+                <Text>An error occured</Text>
+                <Button title='try again' onPress={loadProducts} color={Colors.primary}/>
+            </View>
+        )
+    }
+    if (isLoading) {
+        return (
+            <View style={styles.spinner}>
+                <ActivityIndicator 
+                    size='large'
+                    color={Colors.primary}
+                />
+            </View>
+        )
+    }
+
+    if (!isLoading && products.length === 0) {
+        return (
+            <View style={styles.spinner}>
+                <Text>No products found.</Text>
+            </View>
+        )
+    }
+
 
     const selectItemHandler = (id, title) => {
         props.navigation.navigate({
@@ -33,6 +75,7 @@ const ProductsOverviewScreen = props => {
             }
         })
     }
+
     return (
         <FlatList
             data={products}
@@ -94,5 +137,13 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    spinner: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+})
 
 export default ProductsOverviewScreen

@@ -7,25 +7,35 @@ export const SET_PRODUCTS = 'SET_PRODUCTS'
 
 export const fetchProducts = () => {
     return async dispatch => {
-        const res = await fetch('https://reactnative-ac7bd.firebaseio.com/products.json')
-        const resData = await res.json()
-        const loadedProducts = []
-        for (const key in  resData) {
-            loadedProducts.push(new Product(
-                key,
-                'u1',
-                resData[key].title,
-                resData[key].imageUrl,
-                resData[key].description,
-                resData[key].price
-            ))
-            console.log(loadedProducts[0])
+        try {
+            const res = await fetch('https://reactnative-ac7bd.firebaseio.com/products.json')
+            if(!res.ok) {
+                // check response body to see what's wrong
+                throw new Error('Something went wrong')
+            }
+            const resData = await res.json()
+            const loadedProducts = []
+            for (const key in  resData) {
+                loadedProducts.push(new Product(
+                    key,
+                    'u1',
+                    resData[key].title,
+                    resData[key].imageUrl,
+                    resData[key].description,
+                    resData[key].price
+                ))
+                console.log(loadedProducts[0])
+            }
+            
+            dispatch({
+                type: SET_PRODUCTS,
+                products: loadedProducts
+            })
+        } catch (err) {
+            // send to custom analytics server
+            throw err
         }
-        
-        dispatch({
-            type: SET_PRODUCTS,
-            products: loadedProducts
-        })
+
     }
 }
 
