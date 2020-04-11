@@ -7,7 +7,9 @@ export const SET_PRODUCTS = 'SET_PRODUCTS'
 
 
 export const fetchProducts = () => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const userId = getState().auth.userId
+
         try {
             const res = await fetch('https://reactnative-ac7bd.firebaseio.com/products.json')
             if(!res.ok) {
@@ -29,7 +31,8 @@ export const fetchProducts = () => {
             
             dispatch({
                 type: SET_PRODUCTS,
-                products: loadedProducts
+                products: loadedProducts,
+                userProducts: loadedProducts.filter(prod => prod.ownerId === userId)
             })
         } catch (err) {
             // send to custom analytics server
@@ -43,6 +46,7 @@ export const fetchProducts = () => {
 export const createProduct = (title, description, imageUrl, price) => { //id given in reducer (Date)
     return async (dispatch, getState) => {
         const token = getState().auth.token
+        const userId = getState().auth.userId
         const res = await fetch(`https://reactnative-ac7bd.firebaseio.com/products.json?auth=${token}`, {
             method: 'POST',
             headers: {
@@ -52,7 +56,8 @@ export const createProduct = (title, description, imageUrl, price) => { //id giv
                 title,
                 description,
                 imageUrl,
-                price
+                price,
+                ownerId: userId
             })
         })
 
@@ -65,7 +70,8 @@ export const createProduct = (title, description, imageUrl, price) => { //id giv
                 title,
                 description,
                 imageUrl,
-                price
+                price,
+                ownerId: userId
             }
         })
     }

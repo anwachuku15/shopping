@@ -5,13 +5,15 @@ export const ADD_ORDER = 'ADD_ORDER'
 export const SET_ORDERS = 'SET_ORDERS'
 
 export const fetchOrders = () => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const token = getState().auth.token
+        const userId = getState().auth.userId
         try {
             // GET REQUEST
-            const res = await fetch('https://reactnative-ac7bd.firebaseio.com/orders/u1.json')
-            // const res = await fetch(`https://reactnative-ac7bd.firebaseio.com/orders/u1.json`, {
+            const res = await fetch(
+                `https://reactnative-ac7bd.firebaseio.com/orders/${userId}.json?auth=${token}`
+            )
             if(!res.ok) {
-                // check response body to see what's wrong
                 throw new Error('Something went wrong')
             }
             const resData = await res.json()
@@ -38,10 +40,11 @@ export const fetchOrders = () => {
 }
 // no error handling
 export const addOrder = (cartItems, totalAmount) => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
+        const token = getState().auth.token
+        const userId = getState().auth.userId
         const date = new Date()
-        const res = await fetch('https://reactnative-ac7bd.firebaseio.com/orders/u1.json', {
-        // const res = await fetch(`https://reactnative-ac7bd.firebaseio.com/orders/u1.json`, {
+        const res = await fetch(`https://reactnative-ac7bd.firebaseio.com/orders/${userId}.json?auth=${token}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'Application/json',
