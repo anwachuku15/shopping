@@ -5,6 +5,7 @@ export const CREATE_PRODUCT = 'CREATE_PRODUCT'
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 export const SET_PRODUCTS = 'SET_PRODUCTS'
 
+
 export const fetchProducts = () => {
     return async dispatch => {
         try {
@@ -40,8 +41,9 @@ export const fetchProducts = () => {
 
 // export const createProduct = (title, description, imageUrl, price) => {return {type: CREATE_PRODUCT, productData: {title,description,imageUrl,price}}}
 export const createProduct = (title, description, imageUrl, price) => { //id given in reducer (Date)
-    return async dispatch => {
-        const res = await fetch('https://reactnative-ac7bd.firebaseio.com/products.json', {
+    return async (dispatch, getState) => {
+        const token = getState().auth.token
+        const res = await fetch(`https://reactnative-ac7bd.firebaseio.com/products.json?auth=${token}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'Application/json',
@@ -70,8 +72,9 @@ export const createProduct = (title, description, imageUrl, price) => { //id giv
 }
 
 export const updateProduct = (id, title, description, imageUrl) => {
-    return async dispatch => {
-        const res = await fetch(`https://reactnative-ac7bd.firebaseio.com/products/${id}.json`, 
+    return async (dispatch, getState) => {
+        const token = getState().auth.token
+        const res = await fetch(`https://reactnative-ac7bd.firebaseio.com/products/${id}.json?auth=${token}`, 
         {
             method: 'PATCH',
             headers: {
@@ -102,8 +105,9 @@ export const updateProduct = (id, title, description, imageUrl) => {
 }
 
 export const deleteProduct = (productId) => {
-    return async dispatch => {
-        const res = await fetch(`https://reactnative-ac7bd.firebaseio.com/products/${productId}.json`,
+    return async (dispatch, getState) => {
+        const token = getState().auth.token
+        const res = await fetch(`https://reactnative-ac7bd.firebaseio.com/products/${productId}.json?auth=${token}`,
         {
             method: 'DELETE',
         })
