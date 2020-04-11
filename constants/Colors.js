@@ -17,5 +17,7 @@ export default {
     prune: '#6B0F1A',
     orange: '#FB5607',
     raspberry: '#FF006E',
-    green: '#03CEA4'
+    green: '#03CEA4',
+    brownsand: '#F0A868',
+    coral: '#F28482'
 }

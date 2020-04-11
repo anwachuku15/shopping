@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
-import { Appearance, useColorScheme } from 'react-native-appearance'
+import { useColorScheme } from 'react-native-appearance'
 
 
 const Card = props => {

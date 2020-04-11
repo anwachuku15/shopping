@@ -5,15 +5,14 @@ import ProductItem from '../../components/shop/ProductItem'
 import * as cartActions from '../../redux/actions/cartActions'
 import { fetchProducts } from '../../redux/actions/productsActions'
 // REACT-NATIVE
-import { Platform, Appearance, useColorScheme, Text, Button, FlatList, ActivityIndicator, View, StyleSheet } from 'react-native'
+import { Platform, Text, Button, FlatList, ActivityIndicator, View, StyleSheet } from 'react-native'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
-
+import { useColorScheme } from 'react-native-appearance'
 
 
 const ProductsOverviewScreen = props => {
-    // COLOR SCHEME LISTENER
 
     const [isLoading, setIsLoading] = useState(false)
     const [isRefreshing, setIsRefreshing] = useState(false)
@@ -95,6 +94,7 @@ const ProductsOverviewScreen = props => {
         })
     }
 
+
     return (
         <FlatList
             onRefresh={loadProducts}
@@ -114,7 +114,7 @@ const ProductsOverviewScreen = props => {
                         onPress={() => {
                             selectItemHandler(itemData.item.id, itemData.item.title)
                         }}
-                        color={Colors.pastel}
+                        color={Colors.coral}
                     />
                     <Button 
                         title='Add to Cart' 

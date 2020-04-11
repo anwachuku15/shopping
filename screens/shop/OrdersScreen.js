@@ -8,8 +8,19 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../../components/UI/HeaderButton'
 import OrderItem from '../../components/shop/OrderItem'
 import Colors from '../../constants/Colors'
+import {useColorScheme} from 'react-native-appearance'
+
 
 const OrdersScreen = props => {
+    const scheme = useColorScheme()
+    let text
+    if (scheme === 'dark') {
+        text = 'white'
+        button = Colors.primary
+    } else {
+        text = 'black'
+        button = '#F4A850'
+    }
     const [isLoading, setIsLoading] = useState(false)
     
 
@@ -37,10 +48,14 @@ const OrdersScreen = props => {
         )
     }
 
+    
+    
+    
+
     if (orders.length === 0) {
         return (
             <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
-                <Text>No orders yet</Text>
+                <Text style={{color:text, marginBottom:500}}>You haven't placed any orders yet.</Text>
             </View>
         )
     }

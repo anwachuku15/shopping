@@ -9,11 +9,24 @@ import {
     TouchableNativeFeedback,
 
 } from 'react-native'
+import { useColorScheme } from 'react-native-appearance'
 import Card from '../UI/Card'
+import Colors from '../../constants/Colors'
 
 
 // PRESENTATIONAL (STYLING) COMPONENT
 const ProductItem = props => {
+    const colorScheme = useColorScheme()
+    let text
+    let priceColor
+    if (colorScheme === 'dark') {
+        text = 'white'
+        priceColor = 'coral'
+    } else {
+        text = 'black'
+        priceColor = Colors.orange
+    }
+
     let TouchableCmp = TouchableOpacity
     if (Platform.OS === 'android' && Platform.Version >= 21) {
         TouchableCmp = TouchableNativeFeedback
@@ -30,8 +43,8 @@ const ProductItem = props => {
                         </View>
                         
                         <View style={styles.prodInfo}>
-                            <Text style={styles.title}>{props.title}</Text>
-                            <Text style={styles.price}>${props.price.toFixed(2)}</Text>
+                            <Text style={{...styles.title, ...{color:text}}}>{props.title}</Text>
+                            <Text style={{...styles.price,...{color:priceColor}}}>${props.price.toFixed(2)}</Text>
                         </View>
                         
                         <View style={styles.buttons}>
@@ -79,7 +92,8 @@ const styles = StyleSheet.create({
     price: {
         fontFamily: 'open-sans',
         fontSize: 14,
-        color: '#888'
+        // color: '#888'
+        // color: 'lightgray'
     },
     buttons: {
         flexDirection: 'row',

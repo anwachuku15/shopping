@@ -8,6 +8,7 @@ import ProductItem from '../../components/shop/ProductItem'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../../components/UI/HeaderButton'
 import Colors from '../../constants/Colors'
+import {useColorScheme} from 'react-native-appearance'
 
 const UserProductsScreen = props => {
     // const userProducts = useSelector(state => state.products.userProducts)
@@ -27,6 +28,7 @@ const UserProductsScreen = props => {
             }
         })
     }
+    // const navToAdd = 
 
     const deleteHandler = (id) => {
         Alert.alert('Are you sure?', 'Cannot be undone.', [
@@ -44,10 +46,32 @@ const UserProductsScreen = props => {
         ])
     }   
 
+    const scheme = useColorScheme()
+    let text
+    let button
+    if (scheme === 'dark') {
+        text = 'white'
+        button = Colors.primary
+    } else {
+        text = 'black'
+        button = '#F4A850'
+    }
+
     if (userProducts.length === 0) {
         return (
             <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
-                <Text>No products found</Text>
+                <View style={{marginBottom:500}}>
+                    <Text style={{color:text}}>You haven't added any products yet.</Text>
+                    <Button 
+                        title='Add a Product'
+                        onPress={() => {
+                            props.navigation.navigate({
+                                routeName: 'EditProduct'
+                            })
+                        }}
+                        color={button}
+                    />
+                </View>
             </View>
         )
     }
@@ -66,7 +90,7 @@ const UserProductsScreen = props => {
                     <Button 
                         title='Edit' 
                         onPress={() => {navToEdit(itemData.item.id)}}
-                        color={Colors.pastel}
+                        color={Colors.coral}
                     />
                     <Button 
                         title='Delete' 

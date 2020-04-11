@@ -1,17 +1,24 @@
 import React from 'react'
-// REDUX
 
 // REACT NATIVE
 import { Platform, View, Text, StyleSheet, TouchableOpacity, } from 'react-native'
+import { useColorScheme } from 'react-native-appearance'
 import { Ionicons } from '@expo/vector-icons'
 import Colors from '../../constants/Colors'
 
 const CartItem = props => {
+    const scheme = useColorScheme()
+    let text
+    if (scheme === 'dark') {
+        text = 'white'
+    } else {
+        text = 'black'
+    }
     return (
         <View style={styles.cartItem}>
             <View style={styles.itemData}>
-                <Text style={styles.quantity}>({props.quantity}) </Text>
-                <Text style={styles.title}>{props.title}</Text>
+                <Text style={styles.quantity}>({props.quantity})   </Text>
+                <Text style={{...styles.title, ...{color:text}}}>{props.title}</Text>
             </View>
             <View style={styles.itemData}>
                 <Text style={styles.amount}>${props.amount.toFixed(2)}</Text>
@@ -29,11 +36,12 @@ const CartItem = props => {
 
 const styles = StyleSheet.create({
     cartItem: {
-        padding: 10,
+        // padding: 2,
         // backgroundColor: 'white',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginHorizontal: 20
+        marginHorizontal: 5,
+        marginVertical: 5
     },
     itemData: {
         flexDirection: 'row',
@@ -41,13 +49,13 @@ const styles = StyleSheet.create({
     },
     quantity:{
         fontFamily: 'open-sans',
-        color: Colors.gunmetal,
-        fontSize: 16,
+        color: Colors.coral,
+        fontSize: 13,
         marginLeft: 5
     },
     title:{
-        fontFamily: 'open-sans-bold',
-        fontSize: 16
+        fontFamily: 'open-sans',
+        fontSize: 12
     },
     amount:{
         fontFamily: 'open-sans',
@@ -55,7 +63,7 @@ const styles = StyleSheet.create({
         color: Colors.orange
     },
     delete:{
-        marginLeft: 20
+        marginLeft: 30
     },
 })
 
