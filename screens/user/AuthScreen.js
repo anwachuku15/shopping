@@ -10,7 +10,7 @@ import Input from '../../components/UI/Input'
 import Card from '../../components/UI/Card'
 import Colors from '../../constants/Colors'
 
-import { Appearance, useColorScheme } from 'react-native-appearance'
+import { useColorScheme } from 'react-native-appearance'
 
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE'
