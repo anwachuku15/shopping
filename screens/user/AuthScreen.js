@@ -1,9 +1,9 @@
-import React, { useReducer, useCallback } from 'react'
+import React, { useState, useReducer, useCallback } from 'react'
 import { ScrollView, View, KeyboardAvoidingView, StyleSheet, Button } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 
 import { useDispatch } from 'react-redux'
-import { signup } from '../../redux/actions/authActions'
+import { signup, login } from '../../redux/actions/authActions'
 
 import Input from '../../components/UI/Input'
 import Card from '../../components/UI/Card'
@@ -44,6 +44,8 @@ const formReducer = (state, action) => {
 }
 
 const AuthScreen = props => {
+    const [isSignup, setIsSignup] = useState(false)
+
     const dispatch = useDispatch()
 
      // FORM VALIDATION - INITIAL STATE
@@ -59,8 +61,14 @@ const AuthScreen = props => {
         formIsValid: false,
     })
 
-    const signupHandler = () => {
-        dispatch(signup(formState.inputValues.email, formState.inputValues.password))
+    const authHandler = () => {
+        let action
+        if (isSignup) {
+            action = signup(formState.inputValues.email, formState.inputValues.password)
+        } else {
+            action = login(formState.inputValues.email, formState.inputValues.password)
+        }
+        dispatch(action)
     }   
 
     const inputChangeHandler = useCallback(
@@ -103,16 +111,19 @@ const AuthScreen = props => {
                         />
                         <View style={styles.buttonContainer}>
                             <Button 
-                                title='Login' 
+                                title={isSignup ? 'Sign Up' : 'Login'}
                                 color={Colors.primary}
-                                onPress={signupHandler}
+                                onPress={authHandler}
                             />
                         </View>
                         <View style={styles.buttonContainer}>
                             <Button 
-                                title='Switch To Sign Up' 
+                                title={`Switch to ${isSignup ? 'Login' : 'Sign Up'}`} 
                                 color={Colors.gunmetal}
-                                onPress={() => {}}
+                                onPress={() => {
+                                    setIsSignup(!isSignup)
+                                    // setIsSignup(prevState => !prevState)
+                                }}
                             />
                         </View>
                     </ScrollView>
