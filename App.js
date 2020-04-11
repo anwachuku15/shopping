@@ -1,23 +1,28 @@
 import React from 'react';
-import { StatusBar } from 'react-native'
-import Colors from './constants/Colors'
-
+import { StatusBar, } from 'react-native'
+import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
 import { Provider } from 'react-redux'
 import store from './redux/store';
-
 import { useFonts } from '@use-expo/font'
 import { AppLoading } from 'expo'
 import { enableScreens } from 'react-native-screens'
+import Colors from './constants/Colors'
 
-// NAVIGATION
 import ShopNavigator from './navigation/ShopNavigator'
 
 enableScreens()
 
 
-StatusBar.setBarStyle('dark-content')
-
 export default function App() {
+  const colorScheme = useColorScheme()
+  if(colorScheme === 'dark') {
+    StatusBar.setBarStyle('light-content')
+  } else {
+    StatusBar.setBarStyle('dark-content')
+  }
+
+
+  
   let [fontsLoaded] = useFonts({
     'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
@@ -27,9 +32,11 @@ export default function App() {
     return <AppLoading />
   } else {
     return (
-      <Provider store={store}>
-        <ShopNavigator />
-      </Provider>
+      <AppearanceProvider>
+        <Provider store={store}>
+          <ShopNavigator theme={colorScheme}/>
+        </Provider>
+      </AppearanceProvider>
     )
   }
 }

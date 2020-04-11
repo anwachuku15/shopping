@@ -15,9 +15,9 @@ import { Ionicons } from '@expo/vector-icons'
 import AuthScreen from '../screens/user/AuthScreen'
 
 const defaultNavOptions = {
-    headerStyle: {
-        backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
-    },
+    // headerStyle: {
+    //     backgroundColor: Platform.OS === 'android' ? Colors.primary : ''
+    // },
     headerTitleStyle: {
         fontFamily: 'open-sans-bold',
     },

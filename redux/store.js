@@ -13,6 +13,7 @@ const rootReducer = combineReducers({
     auth: authReducer
 })
 
+
 const store = createStore(
     // composeWithDevTools(),
     rootReducer, 

@@ -2,6 +2,9 @@ import React, { useReducer, useEffect } from 'react'
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 import Colors from '../../constants/Colors'
 
+import { Appearance, useColorScheme } from 'react-native-appearance'
+Appearance.getColorScheme()
+
 const INPUT_CHANGE = 'INPUT_CHANGE'
 const INPUT_BLUR = 'INPUT_BLUR'
 
@@ -25,6 +28,7 @@ const inputReducer = (state, action) => {
 }
 
 const Input = props => {
+    
     const [inputState, dispatch] = useReducer(inputReducer, {
         value: props.initialValue ? props.initialValue : '',
         isValid: props.initiallyValid,
@@ -44,7 +48,6 @@ const Input = props => {
             type: INPUT_BLUR
         })
     }
-
     
     const textChangeHandler = text => {
         const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -71,12 +74,20 @@ const Input = props => {
         })
     }
 
+    const colorScheme = useColorScheme()
+    let text
+    if(colorScheme === 'dark') {
+        text = 'white'
+    } else {
+        text = 'black'
+    }
+
     return (
         <View style={styles.formControl}>
-            <Text style={styles.label}>{props.label}</Text>
+            <Text style={{...styles.label, ...{color:text}}}>{props.label}</Text>
             <TextInput
                 {...props}
-                style={styles.input}
+                style={{ ...styles.input, ...{color: text}}}
                 value={inputState.value}
                 onChangeText={textChangeHandler}
                 onBlur={lostFocusHandler}
@@ -88,11 +99,14 @@ const Input = props => {
             )}
         </View>
     )
+    
 }
+
+
 
 const styles = StyleSheet.create({
     formControl: {
-        width: '100%'
+        width: '100%',
     },
     label: {
         fontFamily: 'open-sans-bold',
@@ -102,6 +116,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 2,
         paddingVertical: 5,
         borderBottomColor: Colors.primary,
+        color: 'red',
         borderBottomWidth: 1
     },
     errorContainer:{

@@ -1,4 +1,5 @@
 import React, { useState, useReducer, useCallback, useEffect } from 'react'
+
 import { ScrollView, Alert, Platform, View, KeyboardAvoidingView, StyleSheet, Button, ActivityIndicator} from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 
@@ -8,6 +9,8 @@ import { signup, login } from '../../redux/actions/authActions'
 import Input from '../../components/UI/Input'
 import Card from '../../components/UI/Card'
 import Colors from '../../constants/Colors'
+
+import { Appearance, useColorScheme } from 'react-native-appearance'
 
 
 const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE'
@@ -44,6 +47,8 @@ const formReducer = (state, action) => {
 }
 
 const AuthScreen = props => {
+
+
     const [isSignup, setIsSignup] = useState(false)
     const [error, setError] = useState()
     const [isLoading, setIsLoading] = useState(false)
@@ -101,9 +106,17 @@ const AuthScreen = props => {
             })
     }, [dispatchFormState])
 
+    const colorScheme = useColorScheme()
+    let switchButton
+    if(colorScheme === 'dark') {
+        switchButton = Colors.tan
+    } else {
+        switchButton = Colors.pastel
+    }
+
     return (
         <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset={50} style={styles.screen}>
-            <LinearGradient colors={[Colors.primary, Colors.blacksmoke]} style={styles.gradient}>
+            {/* <LinearGradient colors={[Colors.primary, Colors.blacksmoke]} style={styles.gradient}> */}
                 <Card style={styles.authContainer}>
                     <ScrollView>
                         <Input 
@@ -142,7 +155,7 @@ const AuthScreen = props => {
                             ) : ( 
                                 <Button 
                                     title={`Switch to ${isSignup ? 'Login' : 'Sign Up'}`} 
-                                    color={Colors.gunmetal}
+                                    color={switchButton}
                                     onPress={() => {setIsSignup(!isSignup)}} 
                                     // setIsSignup(prevState => !prevState)
                                 />
@@ -150,7 +163,7 @@ const AuthScreen = props => {
                         </View>
                     </ScrollView>
                 </Card>
-            </LinearGradient>
+            {/* </LinearGradient> */}
         </KeyboardAvoidingView>
     )
 }
@@ -162,13 +175,14 @@ AuthScreen.navigationOptions = {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        
     },
     gradient: {
         // width: '100%',
         // height: '100%',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        
     },
     authContainer: {
         width: '80%',

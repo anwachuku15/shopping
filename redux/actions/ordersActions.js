@@ -19,7 +19,7 @@ export const fetchOrders = () => {
             const resData = await res.json()
             const loadedOrders = []
 
-            for (const key in  resData) {
+            for (const key in resData) {
                 loadedOrders.push(new Order(
                     key,
                     resData[key].cartItems,
