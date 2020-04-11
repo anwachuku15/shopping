@@ -1,6 +1,6 @@
 import React from 'react';
-import { StatusBar, } from 'react-native'
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
+import { StatusBar, } from 'react-native'
 import { Provider } from 'react-redux'
 import store from './redux/store';
 import { useFonts } from '@use-expo/font'
@@ -8,19 +8,19 @@ import { AppLoading } from 'expo'
 import { enableScreens } from 'react-native-screens'
 import Colors from './constants/Colors'
 
-import ShopNavigator from './navigation/ShopNavigator'
+import NavContainer from './navigation/NavContainer'
 
 enableScreens()
 
 
 export default function App() {
+  
   const colorScheme = useColorScheme()
   if(colorScheme === 'dark') {
-    StatusBar.setBarStyle('light-content')
+      StatusBar.setBarStyle('light-content')
   } else {
-    StatusBar.setBarStyle('dark-content')
+      StatusBar.setBarStyle('dark-content')
   }
-
 
   
   let [fontsLoaded] = useFonts({
@@ -32,11 +32,12 @@ export default function App() {
     return <AppLoading />
   } else {
     return (
-      <AppearanceProvider>
+      
         <Provider store={store}>
-          <ShopNavigator theme={colorScheme}/>
+          <AppearanceProvider>
+            <NavContainer theme={colorScheme}/>
+          </AppearanceProvider>
         </Provider>
-      </AppearanceProvider>
     )
   }
 }

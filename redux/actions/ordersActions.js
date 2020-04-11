@@ -6,16 +6,20 @@ export const SET_ORDERS = 'SET_ORDERS'
 
 export const fetchOrders = () => {
     return async (dispatch, getState) => {
+        // console.log(getState())
         const token = getState().auth.token
         const userId = getState().auth.userId
+        console.log('token: ' + token + '\n' + 'userId: ' + userId)
         try {
             // GET REQUEST
             const res = await fetch(
                 `https://reactnative-ac7bd.firebaseio.com/orders/${userId}.json?auth=${token}`
             )
             if(!res.ok) {
+                console.log('could\'t reach database')
                 throw new Error('Something went wrong')
             }
+            console.log('reached database')
             const resData = await res.json()
             const loadedOrders = []
 

@@ -1,4 +1,4 @@
-import { AUTHENTICATE } from '../actions/authActions'
+import { AUTHENTICATE, LOGOUT } from '../actions/authActions'
 // import { LOGIN, SIGNUP } from '../actions/authActions'
 
 
@@ -26,6 +26,9 @@ export default (state = initialState, action) => {
         //         token: action.token,
         //         userId: action.userId
         //     }
+        case LOGOUT: {
+            return initialState
+        }
         default:
             return state
     }
