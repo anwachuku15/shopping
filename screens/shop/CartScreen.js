@@ -111,9 +111,24 @@ const CartScreen = props => {
     )
 }
 
-// CartScreen.navigationOptions = {
-//     headerTitle: 'Your Cart'
-// }
+CartScreen.navigationOptions = (navData) => {
+    return {
+        headerTitle: 'Cart',
+        headerLeft: () => (
+            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                <Item
+                    title='Go Back'
+                    iconName={Platform.OS==='android' ? 'md-arrow-back' : 'ios-arrow-back'}
+                    onPress={() => {
+                        navData.navigation.navigate({
+                            routeName: 'Overview'
+                        })
+                    }}
+                />
+            </HeaderButtons>
+        ),
+    }
+}
 
 const styles = StyleSheet.create({
     screen: {

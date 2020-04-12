@@ -10,10 +10,15 @@ import {
 // REDUX
 import { useSelector, useDispatch } from 'react-redux'
 import Colors from '../../constants/Colors'
+import { useColorScheme } from 'react-native-appearance'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import HeaderButton from '../../components/UI/HeaderButton'
 
 import * as cartActions from '../../redux/actions/cartActions'
 
 const ProductDetailScreen = props => {
+    const scheme = useColorScheme()
+
     const productId = props.navigation.getParam('productId')
     const selectedProduct = useSelector(state => state.products.availableProducts.find(prod => prod.id === productId))
     const dispatch = useDispatch()
@@ -38,7 +43,22 @@ const ProductDetailScreen = props => {
 
 ProductDetailScreen.navigationOptions = navData => {
     return {
-        headerTitle: navData.navigation.getParam('productTitle')
+        headerTitle: navData.navigation.getParam('productTitle'),
+        headerLeft: () => {
+            return (
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item
+                        title='Go Back'
+                        iconName={Platform.OS==='android' ? 'md-arrow-back' : 'ios-arrow-back'}
+                        onPress={() => {
+                            navData.navigation.navigate({
+                                routeName: 'ProductCartTab'
+                            })
+                        }}
+                    />
+                </HeaderButtons>
+            )
+        }
     }
 }
 

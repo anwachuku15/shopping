@@ -7,7 +7,7 @@ import { StatusBar } from 'react-native'
 import { enableScreens } from 'react-native-screens'
 
 
-enableScreens
+enableScreens()
 
 const NavContainer = props => {
     const colorScheme = useColorScheme()

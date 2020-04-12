@@ -3,11 +3,16 @@ import { useDispatch } from 'react-redux'
 import { logout } from '../redux/actions/authActions'
 
 import { Platform, View, Button, SafeAreaView } from 'react-native'
-import { createAppContainer, createSwitchNavigator } from 'react-navigation'
-import { createStackNavigator } from 'react-navigation-stack'
-import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer'
+import { createAppContainer, createSwitchNavigator, NavigationActions, NavigationEvents } from 'react-navigation'
+import { createStackNavigator, StackCardStyleInterpolator } from 'react-navigation-stack'
+import { createDrawerNavigator, DrawerNavigatorItems,} from 'react-navigation-drawer'
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs'
+import Animated, { Easing } from 'react-native-reanimated';
+// import StackViewStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator'
+
 import Colors from '../constants/Colors'
+import { HeaderButtons, Item } from 'react-navigation-header-buttons'
+import HeaderButton from '../components/UI/HeaderButton'
 
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen'
 import ProductDetailScreen from '../screens/shop/ProductDetailScreen'
@@ -33,13 +38,29 @@ const defaultNavOptions = {
     headerBackTitleVisible: false
 }
 
+const ProductsOverview = createStackNavigator({
+    Overview: {
+        screen: ProductsOverviewScreen,
+    }
+}, {
+    defaultNavigationOptions: defaultNavOptions
+})
+
+const Cart = createStackNavigator({
+    Cart: {
+        screen: CartScreen,
+    }
+}, {
+    defaultNavigationOptions: defaultNavOptions
+})
 
 const Tabs = createMaterialTopTabNavigator({
     Overview: {
-        screen: ProductsOverviewScreen,
+        screen: ProductsOverview,
     },
     Cart: {
-        screen: CartScreen,
+        // screen: CartScreen,
+        screen: Cart,
         navigationOptions: {
             swipeEnabled: true,
         }
@@ -50,35 +71,38 @@ const Tabs = createMaterialTopTabNavigator({
         style: {height:0}
     }
 })
-
-Tabs.navigationOptions = ({navigation}) => {
-    const { routeName } = navigation.state.routes[navigation.state.index]
-    let headerTitle
-    switch (routeName) {
-        case 'Overview':
-            headerTitle='Home'
-            break
-        case 'Cart':
-            headerTitle='Cart'
-            break
-    }
-    return {
-        headerTitle: headerTitle
-    }
-}
-
-const ProductsNavigator = createStackNavigator({
-    Home: Tabs,
+  
+const Details = createStackNavigator({
     ProductDetails: {
         screen: ProductDetailScreen,
         navigationOptions: {
             gestureResponseDistance: {
                 horizontal: 500
-            }
+            },
+        }
+    }
+}, {
+    defaultNavigationOptions: defaultNavOptions
+})
+
+const ProductsNavigator = createStackNavigator({
+    ProductCartTab: {
+        screen: Tabs,
+        navigationOptions: {
+            headerStyle: {height: 0}
         }
     },
-    
+    ProductDetails: {
+        screen: Details,
+        navigationOptions: {
+            gestureResponseDistance: {
+                horizontal: 500
+            },
+        },
+    },
 }, {
+    // mode:'modal',
+    headerMode: 'none',
     navigationOptions: {
         drawerIcon: drawerConfig => (
             <Ionicons
@@ -86,10 +110,11 @@ const ProductsNavigator = createStackNavigator({
                 size={23}
                 color={drawerConfig.tintColor}
             />
-        )
+        ),
     },
-    defaultNavigationOptions: defaultNavOptions
+    defaultNavigationOptions: defaultNavOptions,
 })
+
 
  
 const ProductsToCartNavigator = createMaterialTopTabNavigator({
@@ -115,7 +140,6 @@ const ProductsToCartNavigator = createMaterialTopTabNavigator({
             />
         )
     },
-    // defaultNavigationOptions: defaultNavOptions,
 })
 
 
@@ -158,10 +182,6 @@ const AdminNavigator = createStackNavigator({
 const ShopNavigator = createDrawerNavigator({
     Products: {
         screen: ProductsToCartNavigator,
-        navigationOptions: {
-            // drawerLockMode: 
-            title: 'Home'
-        }
     },
     Orders: OrdersNavigator,
     'Your Products': AdminNavigator,
@@ -189,7 +209,6 @@ const ShopNavigator = createDrawerNavigator({
         )
     }
 })
-
 
 
 

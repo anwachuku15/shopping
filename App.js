@@ -32,12 +32,11 @@ export default function App() {
     return <AppLoading />
   } else {
     return (
-      
+      <AppearanceProvider>
         <Provider store={store}>
-          <AppearanceProvider>
             <NavContainer theme={colorScheme}/>
-          </AppearanceProvider>
         </Provider>
+      </AppearanceProvider>
     )
   }
 }
