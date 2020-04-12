@@ -1,10 +1,13 @@
 import React, { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
-import ShopNavigator from './ShopNavigator'
+import MainNavigator from './MainNavigator'
 import { useColorScheme } from 'react-native-appearance'
-import { StatusBar} from 'react-native'
+import { StatusBar } from 'react-native'
+import { enableScreens } from 'react-native-screens'
 
+
+enableScreens
 
 const NavContainer = props => {
     const colorScheme = useColorScheme()
@@ -27,9 +30,9 @@ const NavContainer = props => {
             )
         }
     }, [isAuth])
-
+    
     return (
-        <ShopNavigator theme={props.theme} ref={navRef}/>
+        <MainNavigator theme={props.theme} ref={navRef}/>
     )
 }
 

@@ -86,7 +86,7 @@ const ProductsOverviewScreen = props => {
 
     const selectItemHandler = (id, title) => {
         props.navigation.navigate({
-            routeName: 'ProductDetail',
+            routeName: 'ProductDetails',
             params: {
                 productId: id,
                 productTitle: title
@@ -158,6 +158,7 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
         )
     }
 }
+
 
 const styles = StyleSheet.create({
     spinner: {

@@ -4,8 +4,9 @@ import { logout } from '../redux/actions/authActions'
 
 import { Platform, View, Button, SafeAreaView } from 'react-native'
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
-import { createStackNavigator, TransitionPresets } from 'react-navigation-stack'
+import { createStackNavigator } from 'react-navigation-stack'
 import { createDrawerNavigator, DrawerNavigatorItems } from 'react-navigation-drawer'
+import { createMaterialTopTabNavigator } from 'react-navigation-tabs'
 import Colors from '../constants/Colors'
 
 import ProductsOverviewScreen from '../screens/shop/ProductsOverviewScreen'
@@ -32,29 +33,79 @@ const defaultNavOptions = {
     headerBackTitleVisible: false
 }
 
-const ProductsNavigator = createStackNavigator({
-    ProductsOverview: {
-        screen: ProductsOverviewScreen,
-    },
-    ProductDetail: {
-        screen: ProductDetailScreen,
-        navigationOptions: {
 
-            gestureResponseDistance: {
-                horizontal: 200
-            },
-            
-        }
+const Tabs = createMaterialTopTabNavigator({
+    Overview: {
+        screen: ProductsOverviewScreen,
     },
     Cart: {
         screen: CartScreen,
         navigationOptions: {
+            swipeEnabled: true,
+        }
+    }
+}, {
+    swipeDistanceThreshold: 500,
+    tabBarOptions: {
+        style: {height:0}
+    }
+})
+
+Tabs.navigationOptions = ({navigation}) => {
+    const { routeName } = navigation.state.routes[navigation.state.index]
+    let headerTitle
+    switch (routeName) {
+        case 'Overview':
+            headerTitle='Home'
+            break
+        case 'Cart':
+            headerTitle='Cart'
+            break
+    }
+    return {
+        headerTitle: headerTitle
+    }
+}
+
+const ProductsNavigator = createStackNavigator({
+    Home: Tabs,
+    ProductDetails: {
+        screen: ProductDetailScreen,
+        navigationOptions: {
             gestureResponseDistance: {
-                horizontal: 200
+                horizontal: 500
             }
         }
     },
+    
 }, {
+    navigationOptions: {
+        drawerIcon: drawerConfig => (
+            <Ionicons
+                name={Platform.OS==='android' ? 'md-cart' : 'ios-add'}
+                size={23}
+                color={drawerConfig.tintColor}
+            />
+        )
+    },
+    defaultNavigationOptions: defaultNavOptions
+})
+
+ 
+const ProductsToCartNavigator = createMaterialTopTabNavigator({
+    Home: {
+        screen: ProductsNavigator,
+    }
+}, {
+    initialRouteName: 'Home',
+    swipeEnabled: true,
+    swipeDistanceThreshold: 500,
+    tabBarPosition: 'top',
+    tabBarOptions: {
+        showLabel: true,
+        showIcon: false,
+        style: { height: 0}
+    },
     navigationOptions: {
         drawerIcon: drawerConfig => (
             <Ionicons
@@ -64,7 +115,7 @@ const ProductsNavigator = createStackNavigator({
             />
         )
     },
-    defaultNavigationOptions: defaultNavOptions
+    // defaultNavigationOptions: defaultNavOptions,
 })
 
 
@@ -84,7 +135,6 @@ const OrdersNavigator = createStackNavigator({
     },
     defaultNavigationOptions: defaultNavOptions
 })
-
 const AdminNavigator = createStackNavigator({
     UserProducts: {
         screen: UserProductsScreen,
@@ -92,27 +142,31 @@ const AdminNavigator = createStackNavigator({
     EditProduct: {
         screen: EditProductScreen
     }
- }, {
- navigationOptions: {
-     drawerIcon: drawerConfig => (
-         <Ionicons
-             name={Platform.OS==='android' ? 'md-create' : 'ios-create'}
-             size={23}
-             color={drawerConfig.tintColor}
-         />
-     )
- },
- defaultNavigationOptions: defaultNavOptions
+    }, {
+    navigationOptions: {
+        drawerIcon: drawerConfig => (
+            <Ionicons
+                name={Platform.OS==='android' ? 'md-create' : 'ios-create'}
+                size={23}
+                color={drawerConfig.tintColor}
+            />
+        )
+    },
+    defaultNavigationOptions: defaultNavOptions
 })
 
-
-
 const ShopNavigator = createDrawerNavigator({
-    Products: ProductsNavigator,
+    Products: {
+        screen: ProductsToCartNavigator,
+        navigationOptions: {
+            // drawerLockMode: 
+            title: 'Home'
+        }
+    },
     Orders: OrdersNavigator,
     'Your Products': AdminNavigator,
 }, {
-    edgeWidth: 500,
+    edgeWidth: 100,
     contentOptions: {
         activeTintColor: Colors.primary,
     },
@@ -136,6 +190,9 @@ const ShopNavigator = createDrawerNavigator({
     }
 })
 
+
+
+
 const AuthNavigator = createStackNavigator({
     Auth: AuthScreen
 }, {
@@ -145,6 +202,6 @@ const AuthNavigator = createStackNavigator({
 const MainNavigator = createSwitchNavigator({
     StartUp: StartUpScreen,
     Auth: AuthNavigator,
-    Shop: ShopNavigator
+    Shop: ShopNavigator,
 })
 export default createAppContainer(MainNavigator)

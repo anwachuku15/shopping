@@ -38,6 +38,7 @@ const CartScreen = props => {
         setIsLoading(true)
         await dispatch(orderActions.addOrder(cartItems, cartTotalAmount))
         setIsLoading(false)
+        props.navigation.navigate('ProductsOverview')
     }
     
 
