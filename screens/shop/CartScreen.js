@@ -113,7 +113,7 @@ const CartScreen = props => {
 
 CartScreen.navigationOptions = (navData) => {
     return {
-        headerTitle: 'Cart',
+        headerTitle: 'Direct',
         headerLeft: () => (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item

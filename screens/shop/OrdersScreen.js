@@ -93,8 +93,8 @@ OrdersScreen.navigationOptions = (navData) => {
         headerRight: () => (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
-                    title='Cart'
-                    iconName={Platform.OS==='android' ? 'md-cart' : 'ios-cart'}
+                    title='Direct'
+                    iconName={Platform.OS==='android' ? 'md-chatboxes' : 'ios-chatboxes'}
                     onPress={() => {
                         navData.navigation.navigate({
                             routeName: 'Cart',

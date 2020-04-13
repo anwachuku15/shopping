@@ -21,7 +21,7 @@ const ProductsOverviewScreen = props => {
     const products = useSelector(state => {
         const descending = state.products.availableProducts
         return descending.sort((a, b) => 
-            a.id < b.id ? -1 : 1
+            a.id > b.id ? -1 : 1
         )
     })
     const dispatch = useDispatch()
@@ -146,8 +146,8 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
         headerRight: () => (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
-                    title='Cart'
-                    iconName={Platform.OS==='android' ? 'md-cart' : 'ios-cart'}
+                    title='Direct'
+                    iconName={Platform.OS==='android' ? 'md-chatboxes' : 'ios-chatboxes'}
                     onPress={() => {
                         navData.navigation.navigate({
                             routeName: 'Cart',

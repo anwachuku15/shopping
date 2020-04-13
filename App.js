@@ -1,4 +1,5 @@
-import React from 'react';
+import Fire from './Fire'
+import React, { useEffect } from 'react';
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
 import { StatusBar, } from 'react-native'
 import { Provider } from 'react-redux'
@@ -15,6 +16,7 @@ enableScreens()
 
 export default function App() {
   
+
   const colorScheme = useColorScheme()
   if(colorScheme === 'dark') {
       StatusBar.setBarStyle('light-content')

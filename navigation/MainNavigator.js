@@ -3,12 +3,11 @@ import { useDispatch } from 'react-redux'
 import { logout } from '../redux/actions/authActions'
 
 import { Platform, View, Button, SafeAreaView } from 'react-native'
-import { createAppContainer, createSwitchNavigator, NavigationActions, NavigationEvents } from 'react-navigation'
-import { createStackNavigator, StackCardStyleInterpolator } from 'react-navigation-stack'
+import { createAppContainer, createSwitchNavigator } from 'react-navigation'
+import { createStackNavigator, } from 'react-navigation-stack'
 import { createDrawerNavigator, DrawerNavigatorItems,} from 'react-navigation-drawer'
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs'
 import Animated, { Easing } from 'react-native-reanimated';
-// import StackViewStyleInterpolator from 'react-navigation-stack/src/views/StackView/StackViewStyleInterpolator'
 
 import Colors from '../constants/Colors'
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
@@ -54,24 +53,6 @@ const Cart = createStackNavigator({
     defaultNavigationOptions: defaultNavOptions
 })
 
-const Tabs = createMaterialTopTabNavigator({
-    Overview: {
-        screen: ProductsOverview,
-    },
-    Cart: {
-        // screen: CartScreen,
-        screen: Cart,
-        navigationOptions: {
-            swipeEnabled: true,
-        }
-    }
-}, {
-    swipeDistanceThreshold: 500,
-    tabBarOptions: {
-        style: {height:0}
-    }
-})
-  
 const Details = createStackNavigator({
     ProductDetails: {
         screen: ProductDetailScreen,
@@ -85,7 +66,24 @@ const Details = createStackNavigator({
     defaultNavigationOptions: defaultNavOptions
 })
 
-const ProductsNavigator = createStackNavigator({
+const Tabs = createMaterialTopTabNavigator({
+    Overview: {
+        screen: ProductsOverview,
+    },
+    Cart: {
+        screen: Cart,
+        navigationOptions: {
+            swipeEnabled: true,
+        }
+    }
+}, {
+    swipeDistanceThreshold: 500,
+    tabBarOptions: {
+        style: {height:0}
+    }
+})
+  
+const TabAndDetails = createStackNavigator({
     ProductCartTab: {
         screen: Tabs,
         navigationOptions: {
@@ -115,11 +113,9 @@ const ProductsNavigator = createStackNavigator({
     defaultNavigationOptions: defaultNavOptions,
 })
 
-
- 
 const ProductsToCartNavigator = createMaterialTopTabNavigator({
     Home: {
-        screen: ProductsNavigator,
+        screen: TabAndDetails,
     }
 }, {
     initialRouteName: 'Home',
@@ -178,7 +174,6 @@ const AdminNavigator = createStackNavigator({
     },
     defaultNavigationOptions: defaultNavOptions
 })
-
 const ShopNavigator = createDrawerNavigator({
     Products: {
         screen: ProductsToCartNavigator,
@@ -186,7 +181,7 @@ const ShopNavigator = createDrawerNavigator({
     Orders: OrdersNavigator,
     'Your Products': AdminNavigator,
 }, {
-    edgeWidth: 100,
+    edgeWidth: 300, 
     contentOptions: {
         activeTintColor: Colors.primary,
     },
@@ -195,6 +190,7 @@ const ShopNavigator = createDrawerNavigator({
         return (
             <View style={{flex:1, paddingTop:20}}>
                 <SafeAreaView forceInset={{top:'always', horizontal:'never'}}>
+                    {/* Profile pic & navToProfile */}
                     <DrawerNavigatorItems {...props} />
                     <Button 
                         title='Logout' 
@@ -209,6 +205,7 @@ const ShopNavigator = createDrawerNavigator({
         )
     }
 })
+
 
 
 

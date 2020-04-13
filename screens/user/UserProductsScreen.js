@@ -120,13 +120,13 @@ UserProductsScreen.navigationOptions = (navData) => {
         headerRight: () => (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
-                    title='Add'
-                    iconName={Platform.OS==='android' ? 'md-add' : 'ios-add'}
-                    onPress={() => {
-                        navData.navigation.navigate({
-                            routeName: 'EditProduct'
-                        })
-                    }}
+                    title='Direct'
+                    iconName={Platform.OS==='android' ? 'md-chatboxes' : 'ios-chatboxes'}
+                    // onPress={() => {
+                    //     navData.navigation.navigate({
+                    //         routeName: 'EditProduct'
+                    //     })
+                    // }}
                 />
             </HeaderButtons>
         )
