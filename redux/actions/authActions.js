@@ -1,4 +1,10 @@
+import firebase from 'firebase'
+import '@firebase/firestore'
+import { db } from '../../Firebase/Fire'
 import {AsyncStorage} from 'react-native'
+
+
+
 export const AUTHENTICATE = 'AUTHENTICATE'
 // export const SIGNUP = 'SIGNUP'
 // export const LOGIN = 'LOGIN'
@@ -7,10 +13,11 @@ export const LOGOUT = 'LOGOUT'
 
 export const signup = (email, password) => {
     return async dispatch => {
+        // ---- ADD USER TO APP ---- //
         const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBjFDet9PN8mZjani67TVYKumPfqouGQyE',
         {
             method: 'POST',
-            headesr: {
+            headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -19,7 +26,6 @@ export const signup = (email, password) => {
                 returnSecureToken: true
             })
         })
-
         if (!res.ok) {
             const err = await res.json()
             const errorMessage = err.error.message
@@ -29,9 +35,16 @@ export const signup = (email, password) => {
             }
             throw new Error(message)
         }
-        
-        const resData = await res.json()
 
+        // ---- ADD USER TO CLOUD FIRESTORE ---- //
+        const newUser = {
+            email: email
+        }
+        db.doc(`/users/${newUser.email}`).set({email: newUser.email})
+
+
+        // ---- AUTHENTICATE USER ---- //
+        const resData = await res.json()
         dispatch(authenticate(resData.idToken, resData.localId, parseInt(resData.expiresIn) * 1000))
         // dispatch({
         //     type: SIGNUP,
@@ -48,7 +61,7 @@ export const login = (email, password) => {
         const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBjFDet9PN8mZjani67TVYKumPfqouGQyE',
         {
             method: 'POST',
-            headesr: {
+            headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -66,21 +79,31 @@ export const login = (email, password) => {
                 message = 'Invalid credentials. Try again.'
             }
             throw new Error(message)
-            // const errorMessage = error.error.message
-            // if (errorMessage === 'EMAIL_NOT_FOUND') {
-            //     message = 'Email doesn\'t exist'
-            // } else if (errorMessage === 'INVALID_PASSWORD') {
-            //     message = 'Wrong password. Try again.'
-            // }
+            const errorMessage = error.error.message
+            console.log(errorMessage)
         }
-        
         const resData = await res.json()
+        console.log(resData)
         dispatch(authenticate(resData.idToken, resData.localId, parseInt(resData.expiresIn) * 1000))
         // dispatch({
         //     type: LOGIN,
         //     token: resData.idToken,
         //     userId: resData.localId
         // })
+        const expDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000)
+        saveDataToStorage(resData.idToken, resData.localId, expDate)
+    }
+}
+
+export const login1 = (email, password) => {
+    return async dispatch => {
+        const user = {
+            email: email,
+            password: password
+        }
+        db.collection('users').doc(`${user.email}`).set(user)
+        dispatch(authenticate(resData.idToken, resData.localId, parseInt(resData.expiresIn) * 1000))
+        
         const expDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000)
         saveDataToStorage(resData.idToken, resData.localId, expDate)
     }
@@ -124,6 +147,8 @@ const clearLogoutTimer = () => {
 export const logout = () => {
     clearLogoutTimer()
     AsyncStorage.removeItem('authData')
+    const storedAuthData = AsyncStorage.getItem('authData')
+    console.log(storedAuthData)
     return {type: LOGOUT }
 }
 

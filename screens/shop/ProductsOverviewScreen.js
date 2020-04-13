@@ -94,7 +94,10 @@ const ProductsOverviewScreen = props => {
         })
     }
 
-
+    const storedAuthData = async () => {
+        const storage = await AsyncStorage.getItem('authData')
+        console.log(storage) 
+    }
     return (
         <FlatList
             onRefresh={loadProducts}

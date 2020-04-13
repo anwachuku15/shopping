@@ -191,7 +191,7 @@ const ProductsAndDrawer = createDrawerNavigator({
                         color={Colors.primary}
                         onPress={() => {
                             dispatch(logout)
-                            // props.navigation.navigate('Auth')
+                            props.navigation.navigate('Auth')
                         }}
                     />
                 </SafeAreaView>

@@ -1,10 +1,13 @@
+// import firebase from 'firebase'
+import '@firebase/firestore'
+import { db } from '../../Firebase/Fire'
+
 import Product from "../../models/product-model"
 
 export const DELETE_PRODUCT = 'DELETE_PRODUCT'
 export const CREATE_PRODUCT = 'CREATE_PRODUCT'
 export const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 export const SET_PRODUCTS = 'SET_PRODUCTS'
-
 
 export const fetchProducts = () => {
     return async (dispatch, getState) => {
@@ -61,9 +64,17 @@ export const createProduct = (title, description, imageUrl, price) => { //id giv
                 ownerId: userId
             })
         })
-
         const resData = await res.json()
 
+        db.collection('products').add({
+            title: title,
+            description: description,
+            imageUrl: imageUrl,
+            price: price,
+            ownerId: userId
+        })
+
+        
         dispatch({
             type: CREATE_PRODUCT,
             productData: {

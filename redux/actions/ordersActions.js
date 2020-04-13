@@ -9,7 +9,6 @@ export const fetchOrders = () => {
         // console.log(getState())
         const token = getState().auth.token
         const userId = getState().auth.userId
-        console.log('token: ' + token + '\n' + 'userId: ' + userId)
         try {
             // GET REQUEST
             const res = await fetch(

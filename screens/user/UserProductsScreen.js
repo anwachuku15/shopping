@@ -15,7 +15,7 @@ const UserProductsScreen = props => {
     const userProducts = useSelector(state => {
         const descendingOrders = state.products.userProducts
         return descendingOrders.sort((a, b) => 
-            a.id < b.id ? -1 : 1
+            a.id > b.id ? -1 : 1
         )
     })
 

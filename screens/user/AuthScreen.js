@@ -1,5 +1,4 @@
 import React, { useState, useReducer, useCallback, useEffect } from 'react'
-
 import { ScrollView, Alert, Platform, View, KeyboardAvoidingView, StyleSheet, Button, ActivityIndicator} from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 
@@ -71,7 +70,7 @@ const AuthScreen = props => {
     useEffect(() => {
         if (error) {
             Alert.alert(
-                'Error', 
+                'Error!', 
                 error, 
                 [{text: 'Okay', style: 'cancel'}]
             )
@@ -156,7 +155,7 @@ const AuthScreen = props => {
                                 <Button 
                                     title={`Switch to ${isSignup ? 'Login' : 'Sign Up'}`} 
                                     color={switchButton}
-                                    onPress={() => {setIsSignup(!isSignup)}} 
+                                    onPress={() => {setIsSignup(!isSignup)}}
                                     // setIsSignup(prevState => !prevState)
                                 />
                             )}
