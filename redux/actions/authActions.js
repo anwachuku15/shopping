@@ -11,7 +11,7 @@ export const AUTHENTICATE = 'AUTHENTICATE'
 export const LOGOUT = 'LOGOUT'
 
 
-export const signup = (email, password) => {
+export const signup = (email, password, confirmPassword, ) => {
     return async dispatch => {
         // ---- ADD USER TO APP ---- //
         const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBjFDet9PN8mZjani67TVYKumPfqouGQyE',
@@ -83,7 +83,7 @@ export const login = (email, password) => {
             console.log(errorMessage)
         }
         const resData = await res.json()
-        console.log(resData)
+        // console.log(resData)
         dispatch(authenticate(resData.idToken, resData.localId, parseInt(resData.expiresIn) * 1000))
         // dispatch({
         //     type: LOGIN,
@@ -148,7 +148,7 @@ export const logout = () => {
     clearLogoutTimer()
     AsyncStorage.removeItem('authData')
     const storedAuthData = AsyncStorage.getItem('authData')
-    console.log(storedAuthData)
+    // console.log(storedAuthData)
     return {type: LOGOUT }
 }
 

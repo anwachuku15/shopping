@@ -15,17 +15,26 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import HeaderButton from '../../components/UI/HeaderButton'
 
 
-const NotificationsScreen = props => {
+const MessagesScreen = props => {
     const scheme = useColorScheme()
 
     const productId = props.navigation.getParam('productId')
     const selectedProduct = useSelector(state => state.products.availableProducts.find(prod => prod.id === productId))
     const dispatch = useDispatch()
     
+
+    const colorScheme = useColorScheme()
+    let text
+    let priceColor
+    if (colorScheme === 'dark') {
+        text = 'white'
+    } else {
+        text = 'black'
+    }
     return (
         
         <View style={styles.screen}>
-            <Text>Notifications</Text>
+            <Text style={{color:text}}>Messages</Text>
         </View>
 
             
@@ -33,9 +42,9 @@ const NotificationsScreen = props => {
 }
 
 
-NotificationsScreen.navigationOptions = (navData) => {
+MessagesScreen.navigationOptions = (navData) => {
     return {
-        headerTitle: 'Notifications'
+        headerTitle: 'Messages'
     }
 }
 
@@ -48,4 +57,4 @@ const styles = StyleSheet.create({
 })
 
 
-export default NotificationsScreen
+export default MessagesScreen

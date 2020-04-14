@@ -55,14 +55,20 @@ const AuthScreen = props => {
     const dispatch = useDispatch()
 
      // FORM REDUCER - INITIAL STATE
-     const [formState, dispatchFormState] = useReducer(formReducer, {
+    const [formState, dispatchFormState] = useReducer(formReducer, {
         inputValues: {
+            fname: '',
+            lname: '',
             email: '',
-            password: ''
+            password: '',
+            confirmPassword: ''
         }, 
         inputValidities: {
+            fname: false,
+            lname: false,
             email: false,
-            password: false
+            password: false,
+            confirmPassword: false
         }, 
         formIsValid: false,
     })
@@ -103,8 +109,9 @@ const AuthScreen = props => {
                 input: inputType,
                 isValid: inputValidity,
             })
+            
     }, [dispatchFormState])
-
+    
     const colorScheme = useColorScheme()
     let switchButton
     if(colorScheme === 'dark') {
@@ -118,6 +125,30 @@ const AuthScreen = props => {
             {/* <LinearGradient colors={[Colors.primary, Colors.blacksmoke]} style={styles.gradient}> */}
                 <Card style={styles.authContainer}>
                     <ScrollView>
+                        {isSignup ? (
+                            <Input 
+                                id='fname'
+                                label='First Name'
+                                keyboardType='default'
+                                required
+                                autoCapitalize='words'
+                                errorText='Please enter your first name'
+                                onInputChange={inputChangeHandler}
+                                initialValue=''
+                            />
+                        ) : (null)}
+                        {isSignup ? (
+                            <Input 
+                                id='lname'
+                                label='Last Name'
+                                keyboardType='default'
+                                required
+                                autoCapitalize='words'
+                                errorText='Please enter your last name'
+                                onInputChange={inputChangeHandler}
+                                initialValue=''
+                            />
+                        ) : (null)}
                         <Input 
                             id='email' 
                             label='E-mail' 
@@ -134,13 +165,28 @@ const AuthScreen = props => {
                             label='Password' 
                             keyboardType='default'
                             secureTextEntry
-                            required 
+                            required
                             minLength={8} 
                             autoCapitalize='none' 
                             errorText='Please enter a valid password, at least 8 characters' 
                             onInputChange={inputChangeHandler}
                             initialValue=''
                         />
+                        {isSignup ? (
+                            <Input
+                                confirmPassword 
+                                id='confirmPassword' 
+                                label='Confirm Password' 
+                                keyboardType='default'
+                                secureTextEntry
+                                required 
+                                minLength={8} 
+                                autoCapitalize='none' 
+                                errorText='Make sure passwords match' 
+                                onInputChange={inputChangeHandler}
+                                initialValue=''
+                            />
+                        ) : (null)}
                         <View style={styles.buttonContainer}>
                             <Button 
                                 title={isSignup ? 'Sign Up' : 'Login'}
@@ -181,13 +227,12 @@ const styles = StyleSheet.create({
     gradient: {
         // width: '100%',
         // height: '100%',
-        
     },
     authContainer: {
         width: '80%',
         maxWidth: 400,
         // height: '50%',
-        maxHeight: 400,
+        maxHeight: 500,
         padding: 20
     },
     buttonContainer: {

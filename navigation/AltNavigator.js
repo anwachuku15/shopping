@@ -24,10 +24,10 @@ import EditProductScreen from '../screens/user/EditProductScreen'
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import AuthScreen from '../screens/user/AuthScreen'
 import StartUpScreen from '../screens/StartUpScreen'
-import DirectoryScreen from '../screens/shop/DirectoryScreen'
-import NeedsFeedScreen from '../screens/shop/NeedsFeedScreen'
-import CreatePostScreen from '../screens/shop/CreatePostScreen'
-import NotificationsScreen from '../screens/shop/NotificationsScreen'
+import DirectoryScreen from '../screens/LNB/DirectoryScreen'
+import NeedsFeedScreen from '../screens/LNB/NeedsFeedScreen'
+import CreatePostScreen from '../screens/LNB/CreatePostScreen'
+import NotificationsScreen from '../screens/LNB/NotificationsScreen'
 
 const defaultNavOptions = {
     // headerStyle: {
@@ -135,9 +135,10 @@ const Directory = createStackNavigator({
 
 const CreatePost = createStackNavigator({
     CreatePost: {
-        screen: CreatePostScreen
+        screen: CreatePostScreen,
     }
 }, {
+    mode: 'modal',
     defaultNavigationOptions: defaultNavOptions
 })
 
@@ -295,8 +296,7 @@ const tabScreenConfig = {
     }
 }
 
-const BottomTabNavigator = 
-    Platform.OS === 'android' 
+const BottomTabNavigator = Platform.OS === 'android' 
         ? createMaterialBottomTabNavigator(
             tabScreenConfig, {
             activeColor: 'white',
@@ -320,11 +320,35 @@ const BottomTabNavigator =
         })
 // ----- BOTTOM TABS ----- //
 
+const BottomStack = createStackNavigator({
+    Overview: {
+        screen: BottomTabNavigator,
+        navigationOptions: {
+            tabBarOnPress: ({navigation, defaultHandler}) => {
+                if (navigation.state.key === 'postModal') {
+                    navigation.navigate('postModal')
+                    
+                } else {
+                    defaultHandler()
+                }
+                console.log('key: ' + navigation.state.key)
+            }
+        }
+    },
+    postModal: {
+        screen: CreatePost
+    }
+}, {
+    mode: 'modal',
+    headerMode: "none"
+})
+
 
 
 const NewTabs = createMaterialTopTabNavigator({
     Overview: {
-        screen: BottomTabNavigator,
+        // screen: BottomStack
+        screen: BottomTabNavigator
     },
     Cart: {
         screen: Cart,
@@ -355,7 +379,6 @@ const NewTabAndDetails = createStackNavigator({
         },
     },
 }, {
-    // mode:'modal',
     headerMode: 'none',
     navigationOptions: {
         drawerIcon: drawerConfig => (

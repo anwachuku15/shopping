@@ -24,6 +24,7 @@ const ProductsOverviewScreen = props => {
             a.id > b.id ? -1 : 1
         )
     })
+    
     const dispatch = useDispatch()
     
     const loadProducts = useCallback(async () => {
@@ -52,9 +53,9 @@ const ProductsOverviewScreen = props => {
         setIsLoading(true)
         loadProducts().then(() => {
             setIsLoading(false)
+            
         })
     }, [dispatch, loadProducts])
-
 
     if (error) {
         return (
@@ -96,7 +97,7 @@ const ProductsOverviewScreen = props => {
 
     const storedAuthData = async () => {
         const storage = await AsyncStorage.getItem('authData')
-        console.log(storage) 
+        // console.log(storage) 
     }
     return (
         <FlatList

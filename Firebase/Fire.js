@@ -1,7 +1,7 @@
 import firebase from 'firebase'
 import '@firebase/firestore'
 
-const firebaseConfig = {
+export const config = {
     apiKey: "AIzaSyBjFDet9PN8mZjani67TVYKumPfqouGQyE",
     authDomain: "reactnative-ac7bd.firebaseapp.com",
     databaseURL: "https://reactnative-ac7bd.firebaseio.com",
@@ -14,10 +14,9 @@ const firebaseConfig = {
 
 // admin
 if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig)
+    firebase.initializeApp(config)
 }
 export const db = firebase.firestore()
-
 const Fire = () => {
     // db.collection('characters').doc('mario').set({
     //     employment: 'plumber',

@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 // REDUX
 import { useSelector, useDispatch } from 'react-redux'
-import {deleteProduct} from '../../redux/actions/productsActions'
+import {fetchProducts, deleteProduct} from '../../redux/actions/productsActions'
 // NATIVE
 import { Alert, Platform, FlatList, Button, View, Text } from 'react-native'
 import ProductItem from '../../components/shop/ProductItem'
@@ -11,7 +11,11 @@ import Colors from '../../constants/Colors'
 import {useColorScheme} from 'react-native-appearance'
 
 const UserProductsScreen = props => {
-    // const userProducts = useSelector(state => state.products.userProducts)
+    const [error, setError] = useState()
+    const [isLoading, setIsLoading] = useState(false)
+    const [isRefreshing, setIsRefreshing] = useState(false)
+    const dispatch = useDispatch()
+
     const userProducts = useSelector(state => {
         const descendingOrders = state.products.userProducts
         return descendingOrders.sort((a, b) => 
@@ -19,7 +23,24 @@ const UserProductsScreen = props => {
         )
     })
 
-    const dispatch = useDispatch()
+    const loadProducts = useCallback(async () => {
+        setError(null)
+        setIsRefreshing(true)
+        try {
+            await dispatch(fetchProducts())
+        } catch (err) {
+            setError(err.message)
+        }
+        setIsRefreshing(false)
+    }, [dispatch, setIsLoading, setError])
+    
+    useEffect(() => {
+        setIsLoading(true)
+        loadProducts().then(() => {
+            setIsLoading(false)
+        })
+    }, [dispatch, loadProducts])
+   
     const navToEdit = (id) => {
         props.navigation.navigate({
             routeName: 'EditProduct',
@@ -57,7 +78,7 @@ const UserProductsScreen = props => {
         button = '#F4A850'
     }
 
-    if (userProducts.length === 0) {
+    if (!isLoading && userProducts.length === 0) {
         return (
             <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
                 <View style={{marginBottom:500}}>
@@ -77,29 +98,40 @@ const UserProductsScreen = props => {
     }
 
     return (
-        <FlatList
-            data={userProducts}
-            keyExtractor={item => item.id}
-            renderItem={itemData => (
-                <ProductItem 
-                    image={itemData.item.imageUrl}
-                    title={itemData.item.title.trim()}
-                    price={itemData.item.price}
-                    onSelect={() => {navToEdit(itemData.item.id)}}
-                >
-                    <Button 
-                        title='Edit' 
-                        onPress={() => {navToEdit(itemData.item.id)}}
-                        color={Colors.coral}
-                    />
-                    <Button 
-                        title='Delete' 
-                        onPress={deleteHandler.bind(this, itemData.item.id)}
-                        color={Colors.primary}
-                    />
-                </ProductItem>
-            )}
-        />
+        <View>
+               <Button 
+                    title='Add a Product'
+                    onPress={() => {
+                        props.navigation.navigate({
+                            routeName: 'EditProduct'
+                        })
+                    }}
+                    color={button}
+                />
+            <FlatList
+                data={userProducts}
+                keyExtractor={item => item.id}
+                renderItem={itemData => (
+                    <ProductItem 
+                        image={itemData.item.imageUrl}
+                        title={itemData.item.title.trim()}
+                        price={itemData.item.price}
+                        onSelect={() => {navToEdit(itemData.item.id)}}
+                    >
+                        <Button 
+                            title='Edit' 
+                            onPress={() => {navToEdit(itemData.item.id)}}
+                            color={Colors.coral}
+                        />
+                        <Button 
+                            title='Delete' 
+                            onPress={deleteHandler.bind(this, itemData.item.id)}
+                            color={Colors.primary}
+                        />
+                    </ProductItem>
+                )}
+            />
+        </View>
     )
 }
 

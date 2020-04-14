@@ -120,7 +120,7 @@ const EditProductScreen = props => {
                     +formState.inputValues.price
                 ))
             }
-            props.navigation.goBack()
+            props.navigation.navigate('Products')
         } catch (err) {
             setError(err.message)
         }
