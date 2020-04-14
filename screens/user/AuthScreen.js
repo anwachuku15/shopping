@@ -86,7 +86,12 @@ const AuthScreen = props => {
     const authHandler = async () => {
         let action
         if (isSignup) {
-            action = signup(formState.inputValues.email, formState.inputValues.password)
+            action = signup(
+                formState.inputValues.email, 
+                formState.inputValues.password, 
+                formState.inputValues.fname, 
+                formState.inputValues.lname
+            )
         } else {
             action = login(formState.inputValues.email, formState.inputValues.password)
         }

@@ -11,7 +11,6 @@ export const config = {
     appId: "1:974259196275:web:9d1ab877150c3384edb506",
     measurementId: "G-W5MLYZBF4D"
 }
-
 // admin
 if (!firebase.apps.length) {
     firebase.initializeApp(config)

@@ -1,5 +1,6 @@
 import firebase from 'firebase'
 import '@firebase/firestore'
+import Fire from '../../Firebase/Firebase'
 import { db } from '../../Firebase/Fire'
 import {AsyncStorage} from 'react-native'
 
@@ -11,7 +12,7 @@ export const AUTHENTICATE = 'AUTHENTICATE'
 export const LOGOUT = 'LOGOUT'
 
 
-export const signup = (email, password, confirmPassword, ) => {
+export const signup = (email, password, fname, lname ) => {
     return async dispatch => {
         // ---- ADD USER TO APP ---- //
         const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBjFDet9PN8mZjani67TVYKumPfqouGQyE',
@@ -36,15 +37,11 @@ export const signup = (email, password, confirmPassword, ) => {
             throw new Error(message)
         }
 
-        // ---- ADD USER TO CLOUD FIRESTORE ---- //
-        const newUser = {
-            email: email
-        }
-        db.doc(`/users/${newUser.email}`).set({email: newUser.email})
-
-
         // ---- AUTHENTICATE USER ---- //
         const resData = await res.json()
+         // ---- ADD USER TO CLOUD FIRESTORE ---- //
+        
+        
         dispatch(authenticate(resData.idToken, resData.localId, parseInt(resData.expiresIn) * 1000))
         // dispatch({
         //     type: SIGNUP,
@@ -53,6 +50,16 @@ export const signup = (email, password, confirmPassword, ) => {
         // })
         const expDate = new Date(new Date().getTime() + parseInt(resData.expiresIn) * 1000)
         saveDataToStorage(resData.idToken, resData.localId, expDate)
+
+        const noImg = 'no-img.png'
+
+        db.doc(`/users/${email}`).set({
+            userId: Fire.shared.uid,
+            joined: new Date().toISOString,
+            email: newUser.email,
+            imageUrl: firebase.storage().ref(`profilepics/${noImg}`),
+            connections: 0
+        })
     }
 }
 
