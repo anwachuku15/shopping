@@ -1,16 +1,11 @@
-import config from './Fire'
+
 import firebase from 'firebase'
 import '@firebase/firestore'
 import moment from 'moment'
 
-const db = firebase.firestore()
+export const db = firebase.firestore()
 
 class Fire {
-    constructor() {
-        if (!firebase.apps.length) {
-            firebase.initializeApp(config)
-        }
-    }
 
     getPosts = async () => {
         try {
@@ -42,6 +37,7 @@ class Fire {
                     image: remoteUri
                 })
                 .then(ref => {
+                    console.log(this.uid)
                     res(ref)
                 })
                 .catch(err => {
@@ -64,8 +60,6 @@ class Fire {
             })
         }
     }
-
-    
 
 
     uploadPhotoAsyn = async uri => {
@@ -103,6 +97,7 @@ class Fire {
         return Date.now()
     }
 }
+
 
 Fire.shared = new Fire()
 

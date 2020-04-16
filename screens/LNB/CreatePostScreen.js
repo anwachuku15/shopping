@@ -21,13 +21,12 @@ import Constants from 'expo-constants'
 import * as Permissions from 'expo-permissions'
 import * as ImagePicker from 'expo-image-picker'
 import Fire from '../../Firebase/Firebase'
-import Firebase from '../../Firebase/Firebase'
-import firebase from 'firebase'
 import '@firebase/firestore'
 
 const CreatePostScreen = props => {
     const scheme = useColorScheme()
 
+    const userImage = useSelector(state => state.auth.credentials.imageUrl)
     const productId = props.navigation.getParam('productId')
     const selectedProduct = useSelector(state => state.products.availableProducts.find(prod => prod.id === productId))
     const dispatch = useDispatch()
@@ -117,7 +116,7 @@ const CreatePostScreen = props => {
             </View>
 
             <View style={styles.inputContainer}>
-                <Image source={require('../../assets/yellowparty.jpeg')} style={styles.avatar}/>
+                <Image source={{uri: userImage}} style={styles.avatar}/>
                 <TextInput 
                     autoFocus={true} 
                     multiline={true} 

@@ -5,6 +5,8 @@ import Colors from '../../constants/Colors'
 import { Appearance, useColorScheme } from 'react-native-appearance'
 Appearance.getColorScheme()
 
+let text
+
 const INPUT_CHANGE = 'INPUT_CHANGE'
 const INPUT_BLUR = 'INPUT_BLUR'
 
@@ -28,7 +30,13 @@ const inputReducer = (state, action) => {
 }
 
 const Input = props => {
-    
+    const scheme = useColorScheme()
+    if(scheme === 'dark') {
+        text = 'white'
+    } else {
+        text = 'black'
+    }
+
     const [inputState, dispatch] = useReducer(inputReducer, {
         value: props.initialValue ? props.initialValue : '',
         isValid: props.initiallyValid,
@@ -115,16 +123,16 @@ const styles = StyleSheet.create({
     formControl: {
         width: '100%',
     },
-    label: {
-        fontFamily: 'open-sans-bold',
-        marginVertical: 8
-    },
+    // label: {
+    //     fontFamily: 'open-sans-bold',
+    //     marginVertical: 8
+    // },
     input: {
         paddingHorizontal: 2,
         paddingVertical: 5,
         borderBottomColor: Colors.primary,
         color: 'red',
-        borderBottomWidth: 1
+        borderBottomWidth: StyleSheet.hairlineWidth
     },
     errorContainer:{
         marginVertical: 5
@@ -133,7 +141,6 @@ const styles = StyleSheet.create({
         fontFamily: 'open-sans',
         color: 'red',
         fontSize: 12
-    }
+    },
 })
-
 export default Input

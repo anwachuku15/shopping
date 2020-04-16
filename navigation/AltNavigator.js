@@ -23,7 +23,7 @@ import OrdersScreen from '../screens/shop/OrdersScreen'
 import EditProductScreen from '../screens/user/EditProductScreen'
 import { Ionicons, FontAwesome } from '@expo/vector-icons'
 import AuthScreen from '../screens/user/AuthScreen'
-import StartUpScreen from '../screens/StartUpScreen'
+import LoadingScreen from '../screens/LoadingScreen'
 import DirectoryScreen from '../screens/LNB/DirectoryScreen'
 import NeedsFeedScreen from '../screens/LNB/NeedsFeedScreen'
 import CreatePostScreen from '../screens/LNB/CreatePostScreen'
@@ -420,7 +420,7 @@ const NewProductsToCartNavigator = createMaterialTopTabNavigator({
 
 // ----- SWITCH ----- //
 const MainNavigator = createSwitchNavigator({
-    StartUp: StartUpScreen,
+    Loading: LoadingScreen,
     Auth: AuthNavigator,
     Shop: NewProductsToCartNavigator,
 })
