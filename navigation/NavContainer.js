@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { NavigationActions } from 'react-navigation'
 import MainNavigator from './MainNavigator'
 import AltNavigator from './AltNavigator'
-import SocialNavigator from './SocialNavigator'
+import LNBNavigator from './LNBNavigator'
 import { useColorScheme } from 'react-native-appearance'
 import { StatusBar } from 'react-native'
 import { enableScreens } from 'react-native-screens'
@@ -36,7 +36,7 @@ const NavContainer = props => {
     return (
         // <MainNavigator theme={props.theme} ref={navRef}/>
         // <AltNavigator theme={props.theme} ref={navRef}/>
-        <SocialNavigator theme={props.theme} ref={navRef}/>
+        <LNBNavigator theme={props.theme} ref={navRef}/>
     )
 }
 

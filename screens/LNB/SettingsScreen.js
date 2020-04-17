@@ -1,5 +1,6 @@
 import React from 'react'
 import { 
+    Platform,
     View, 
     Text, 
     StyleSheet, 
@@ -40,8 +41,8 @@ const SettingsScreen = props => {
                 <HeaderButtons HeaderButtonComponent={HeaderButton}>
                     <Item
                         title='Direct'
-                        iconName={Platform.OS==='android' ? 'md-menu' : 'ios-menu'}
-                        onPress={() => {props.navigation.toggleDrawer()}}
+                        iconName={Platform.OS==='android' ? 'md-arrow-back' : 'ios-arrow-back'}
+                        onPress={() => {props.navigation.goBack()}}
                     />
                 </HeaderButtons>
                 <Text style={styles.headerTitle}>Settings</Text>
