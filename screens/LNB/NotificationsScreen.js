@@ -37,7 +37,23 @@ const NotificationsScreen = props => {
         
         <View style={styles.screen}>
             <View style={styles.header}>
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item
+                        title='Direct'
+                        iconName={Platform.OS==='android' ? 'md-menu' : 'ios-menu'}
+                        onPress={() => {props.navigation.toggleDrawer()}}
+                    />
+                </HeaderButtons>
                 <Text style={styles.headerTitle}>Notifications</Text>
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item
+                        title='Direct'
+                        iconName={Platform.OS==='android' ? 'md-chatboxes' : 'ios-chatboxes'}
+                        onPress={() => {
+                            props.navigation.navigate('Messages')
+                        }}
+                    />
+                </HeaderButtons>
             </View>
             <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
                 <Text style={{color:text}}>Notifications</Text>
@@ -59,23 +75,23 @@ NotificationsScreen.navigationOptions = (navData) => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     header: {
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems: 'center',
         paddingTop: 49,
         paddingBottom: 16,
         backgroundColor: themeColor,
-        alignItems: 'center',
-        justifyContent: 'center',
-        // borderBottomWidth: 0.5,
         borderBottomColor: Colors.primary,
+    },
+    header2: {
+        // borderBottomWidth: 0.5,
         // shadowColor: Colors.primary,
         // shadowOffset: {height: 5},
         // shadowRadius: 15,
         // shadowOpacity: 0.26,
         // zIndex: 10
-        
     },
     headerTitle: {
         color: Colors.primary,

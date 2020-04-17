@@ -16,13 +16,14 @@ import HeaderButton from '../../components/UI/HeaderButton'
 
 let themeColor
 let text
-const DirectoryScreen = props => {
+const SettingsScreen = props => {
     const scheme = useColorScheme()
 
     const productId = props.navigation.getParam('productId')
     const selectedProduct = useSelector(state => state.products.availableProducts.find(prod => prod.id === productId))
     const dispatch = useDispatch()
     
+
     const colorScheme = useColorScheme()
     let text
     if (colorScheme === 'dark') {
@@ -43,7 +44,7 @@ const DirectoryScreen = props => {
                         onPress={() => {props.navigation.toggleDrawer()}}
                     />
                 </HeaderButtons>
-                <Text style={styles.headerTitle}>Directory</Text>
+                <Text style={styles.headerTitle}>Settings</Text>
                 <HeaderButtons HeaderButtonComponent={HeaderButton}>
                     <Item
                         title='Direct'
@@ -55,23 +56,25 @@ const DirectoryScreen = props => {
                 </HeaderButtons>
             </View>
             <View style={{flex:1, justifyContent: 'center', alignItems:'center'}}>
-                <Text style={{color:text}}>Member Directory</Text>
+                <Text style={{color:text}}>Settings</Text>
             </View>
+            
         </View>
+
+            
     )
 }
 
 
-DirectoryScreen.navigationOptions = (navData) => {
+SettingsScreen.navigationOptions = (navData) => {
     return {
-        headerTitle: 'Member Directory'
+        headerTitle: 'Settings'
     }
 }
 
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: themeColor
     },
     header: {
         flexDirection:'row',
@@ -82,6 +85,14 @@ const styles = StyleSheet.create({
         backgroundColor: themeColor,
         borderBottomColor: Colors.primary,
     },
+    header2: {
+        // borderBottomWidth: 0.5,
+        // shadowColor: Colors.primary,
+        // shadowOffset: {height: 5},
+        // shadowRadius: 15,
+        // shadowOpacity: 0.26,
+        // zIndex: 10
+    },
     headerTitle: {
         color: Colors.primary,
         fontFamily: 'open-sans-bold',
@@ -89,6 +100,4 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
 })
-
-
-export default DirectoryScreen
+export default SettingsScreen

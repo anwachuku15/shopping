@@ -24,7 +24,7 @@ const OrderItem = props => {
                     // setShowDetails(prevSate => !prevState)
                 }}
             />
-            {showDetails && (
+            {/* {showDetails && (
                 <View style={styles.detailItems}>
                     {props.items.map(cartItem => (
                         <CartItem 
@@ -35,7 +35,7 @@ const OrderItem = props => {
                         />
                     ))}
                 </View>
-            )}
+            )} */}
         </Card>
     )
 }

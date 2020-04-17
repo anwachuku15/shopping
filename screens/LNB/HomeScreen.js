@@ -162,51 +162,29 @@ const HomeScreen = props => {
         
         <View style={styles.screen}>
             <View style={styles.header}>
-                <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-                    <HeaderButtons HeaderButtonComponent={HeaderButton}>
-                        <Item
-                            title='Direct'
-                            iconName={Platform.OS==='android' ? 'md-menu' : 'ios-menu'}
-                            // onPress={() => {props.navigation.toggleDrawer()}}
-                            onPress={() => {
-                                dispatch(logout)
-                                props.navigation.navigate('Auth')
-                            }}
-                        />
-                    </HeaderButtons>
-                    <Text style={styles.headerTitle}>Feed</Text>
-                    <HeaderButtons HeaderButtonComponent={HeaderButton}>
-                        <Item
-                            title='Direct'
-                            iconName={Platform.OS==='android' ? 'md-chatboxes' : 'ios-chatboxes'}
-                            onPress={() => {
-                                props.navigation.navigate('Messages')
-                            }}
-                        />
-                    </HeaderButtons>
-                </View>
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item
+                        title='Direct'
+                        iconName={Platform.OS==='android' ? 'md-menu' : 'ios-menu'}
+                        onPress={() => {props.navigation.toggleDrawer()}}
+                        // onPress={() => {
+                            //     dispatch(logout)
+                            //     props.navigation.navigate('Auth')
+                            // }}
+                            />
+                </HeaderButtons>
+                <Text style={styles.headerTitle}>Feed</Text>
+                <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                    <Item
+                        title='Direct'
+                        iconName={Platform.OS==='android' ? 'md-chatboxes' : 'ios-chatboxes'}
+                        onPress={() => {
+                            props.navigation.navigate('Messages')
+                        }}
+                    />
+                </HeaderButtons>
             </View>
 
-            {/* <TouchableCmp onPress={props.onSelect} useForeground>
-                <View style={styles.feedItem}>
-                    <Image source={{uri: item.item.imageUrl}} style={styles.avatar} />
-                    <View style={{flex: 1}}>
-                        <View style={{flexDirection: 'row', justifyContent:'space-between', alignItems:'center'}}>
-                            <View>
-                                <Text style={styles.name}>{item.item.title}</Text>
-                                <Text style={styles.timestamp}>{item.item.price}</Text>
-                            </View>
-                            <Ionicons name='ios-more' size={24} color='#73788B'/>
-                        </View>
-                        <Text style={styles.post}>{item.item.description}</Text>
-                        <Image source={{uri: item.item.imageUrl}} style={styles.postImage} resizeMode='cover' />
-                        <View style={{flexDirection: 'row', alignSelf: 'flex-end'}}>
-                            <Ionicons name='ios-heart-empty' size={24} color='#73788B' style={{marginRight: 16}} />
-                            <Ionicons name='ios-chatboxes' size={24} color='#73788B' style={{marginRight: 16}} />
-                        </View>
-                    </View>
-                </View>
-            </TouchableCmp> */}
 
             <FlatList
                 onRefresh={loadProducts}
@@ -221,6 +199,7 @@ const HomeScreen = props => {
             {/* <FlatList
                 onRefresh={loadProducts}
                 refreshing={isRefreshing}
+                style={styles.feed}
                 data={products}
                 renderItem={itemData => (
                     <ProductItem 
@@ -298,20 +277,13 @@ const styles = StyleSheet.create({
         backgroundColor: themeColor
     },
     header: {
-        // flex: 1,
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems: 'center',
         paddingTop: 49,
         paddingBottom: 16,
         backgroundColor: themeColor,
-        alignItems: 'center',
-        justifyContent: 'center',
-        // borderBottomWidth: 0.5,
         borderBottomColor: Colors.primary,
-        // shadowColor: Colors.primary,
-        // shadowOffset: {height: 5},
-        // shadowRadius: 15,
-        // shadowOpacity: 0.26,
-        // zIndex: 10
-        
     },
     headerTitle: {
         color: Colors.primary,

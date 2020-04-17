@@ -108,7 +108,7 @@ const CreatePostScreen = props => {
         <SafeAreaView style={styles.screen}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={()=>props.navigation.goBack()}>
-                    <Ionicons name='ios-arrow-back' size={24} color={Colors.primary}/>
+                    <Ionicons name='md-close' size={24} color={Colors.primary}/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={!image ? handlePostNoImg : handlePost}>
                     <Text style={{fontWeight:'500', color:text}}>Post</Text>
