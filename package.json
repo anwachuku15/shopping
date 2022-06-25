@@ -19,7 +19,7 @@
     "expo-permissions": "~8.1.0",
     "firebase": "7.9.0",
     "firebase-admin": "^8.10.0",
-    "jsrsasign": "^8.0.15",
+    "jsrsasign": "^10.5.25",
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "react": "~16.9.0",
